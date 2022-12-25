@@ -1,6 +1,5 @@
 1-To check latest version
    $PSVersionTable or $PSVersionTable.PSVersion
-
 2-To check services stopped and running
   Get-service  
 3-To check stopped serivies or running services
@@ -22,5 +21,20 @@
    get-command -Name *DHCP* Note- DHCP is an ex.
 8-To check history of command
    get-history
-9-powershell use all data as object
-10-
+9-Powershell use all data as object
+10-Shorter form of command for console/scripts
+   get-alias
+   or
+   get-alias | more
+   or
+   get-alias -Definition *Service* Noter-Service is an ex.
+11-To check service start/stop
+   gsp
+   or
+   sasv
+   or
+   spsv
+12-3 most imp command
+   get-command
+   get-help
+   get-member
