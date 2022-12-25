@@ -1,0 +1,26 @@
+1-To check latest version
+   $PSVersionTable or $PSVersionTable.PSVersion
+
+2-To check services stopped and running
+  Get-service  
+3-To check stopped serivies or running services
+  Get-Service |
+  >>>Where-Object Status -eq 'Stopped'
+          or
+  >>>Where-Object Status -eq 'Running'
+4-We can store in variable to get csv further.
+  $data = Get-service | where-object -eq 'stopped' | select-object Name,Status
+  $data 
+5-Now to convert into csv
+  $data | out-file .\services.csv
+  notepad .\services.csv
+6-To export
+  $data | export-csv .\services.csv
+  notepad .services.csv
+7-To check how many commands are store in shell
+  (get-command).count
+   get-command -Name *DHCP* Note- DHCP is an ex.
+8-To check history of command
+   get-history
+9-powershell use all data as object
+10-
