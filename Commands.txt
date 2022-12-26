@@ -38,3 +38,19 @@
    get-command
    get-help
    get-member
+13-To find how many cmdlet are present in shell
+   get-command
+   or 
+   get-command -CommandType Fuction | measure-object   Note- command type can be anything.
+14-To make a history of commads in txt file
+   Get-history | Out-File .\History.txt  Note- History is for ex, we can add path before giving file name   
+15-To get track record or to send the file of commands we can use Transcript Start and stop
+   Start-Transcript -Path .\D:\Work\DOCS\transcript1.txt -append
+        (in between anytthing)
+   Stop-Transcript
+16-To check membership for commands 
+   Get-Member
+     or
+   Get-Command | Get-Member
+     or
+   Get-Service | Select-Object Status,Name,MachineName | Get-Member	 
