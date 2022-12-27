@@ -54,3 +54,39 @@
    Get-Command | Get-Member
      or
    Get-Service | Select-Object Status,Name,MachineName | Get-Member	 
+17-Troubleshooting to rectify problems
+    Get-Command
+	 or
+	Get-help
+	 or
+	Get-Member
+18-Gathering OS Information 
+    Get-WMIObject (WMI-WIndow Management Instrument)
+     or
+    Get-CimInstance	 (CIM-Common Information Model)
+19-To get performance info of OS and Hardware
+    Get-Counter 
+	 or
+	Get-Counter -ListSet *Memory*
+	 or
+	Get-Counter -ListSet Memory    (Note-Memory is an ex.)
+	or
+	Get-Counter -ListSet Memory | Select -expand Counter 
+20- We use WMI for leagacy version and CIM use as moving things forward.
+21- Using WIM and CIM
+     Get-WMIObject -List*
+	  or
+	 Get-Cimclass -ClassName*
+22- Gathering info for memory using wim and cim
+     Get-WMIObject -Class Win32_PhysicalMemory	 
+	  or
+	 Get-CIMimInstance -class Win32_PhysicalMemory
+23- Getting infor in more compact way by using pipeline and Select-Object
+     Get-CimInstance -class Win32_PhysicalMemory | Select Tag,Capacity   (Note-Tag and capacity is for ex.)
+24- Gethering info for newtorking in os
+    gvm -GetNetIPAddress
+	 or
+	gvm -GetDnsClient
+	or
+	Get-DnsClient
+	 
