@@ -139,7 +139,7 @@
 	 )
     get-service -ComputerName $ComputerName 
 	                                   | Where-Object -Property Status -eq 'Stopped'
-38-Using logic
+38- Using logic
      Param(
 	       [Parameter(Mandatory=$True)][String[]]$ComputerName
           )
@@ -147,29 +147,29 @@
 	          get-service -ComputerName $ComputerName | Where-Object -Property Status -eq 'Stopped'
 	                                   
 	}
-39-Building remote information Gathering-Script
+39- Building remote information Gathering-Script
    
-   #OS Description
+    #OS Description
      $OS = (Get-CimInstance Win32_OperatingSystem -ComputerName -Client01).caption
-   #Disk Freespace in OS Drive
+    #Disk Freespace in OS Drive
       $drive = Get-WimObject - class win32_logicaldisk | where-object DeviceID -eq 'C'
 	  $freeDrive = (($drive.Freespace)/1gb)
 	  $drive
 	  $freeDrive
-   #Amount of System Memory
+    #Amount of System Memory
       $MemoryInGB = ((((Get-CimInstance Win32_PhysicalMemory -ComputerName Client01).capacity|measure -sum).sum)/1gb)
 	  $MemoryInGB
-   #Last Reboot of System
+    #Last Reboot of System
       $LastReboot= (Get-CimInstance Win32_OperatingSystem -ComputerName Client01).LastBootUpTime
 	  $LastReboot
-   #IP Adress and DNS-Name
+    #IP Adress and DNS-Name
       $DNS = Resolve-DnsName -Name Client01 | where-object Type -eq 'A'
 	  $DNSName = $DNS.Name
 	  $DNSIP = $DNS.IpAddress
 	  $DNS
 	  $DNSName
 	  $DNSIP
-   #DNS Server of Target
+    #DNS Server of Target
       $CimSession = New-CimSession -ComputerName Client01 -Credential (Get-Credential)
 	  (Get-DNSClientServerAddress -cimsession $CimSession -InterFaceAlias "ethernet" -AddressFamily IPv4).ServerAddresses
-   #Write-Output to screen
+    #Write-Output to screen
