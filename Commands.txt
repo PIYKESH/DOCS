@@ -1,70 +1,70 @@
-1-To check latest version
-   $PSVersionTable or $PSVersionTable.PSVersion
-2-To check services stopped and running
-  Get-service  
-3-To check stopped serivies or running services
-  Get-Service |
-  >>>Where-Object Status -eq 'Stopped'
+1- To check latest version
+    $PSVersionTable or $PSVersionTable.PSVersion
+2- To check services stopped and running
+    Get-service  
+3- To check stopped serivies or running services
+    Get-Service |
+    >>>Where-Object Status -eq 'Stopped'
           or
-  >>>Where-Object Status -eq 'Running'
-4-We can store in variable to get csv further.
-  $data = Get-service | where-object -eq 'stopped' | select-object Name,Status
-  $data 
-5-Now to convert into csv
-  $data | out-file .\services.csv
-  notepad .\services.csv
-6-To export
-  $data | export-csv .\services.csv
-  notepad .services.csv
-7-To check how many commands are store in shell
-  (get-command).count
-   get-command -Name *DHCP* Note- DHCP is an ex.
-8-To check history of command
-   get-history
-9-Powershell use all data as object
-10-Shorter form of command for console/scripts
-   get-alias
-   or
-   get-alias | more
-   or
-   get-alias -Definition *Service* Noter-Service is an ex.
-11-To check service start/stop
-   gsp
-   or
-   sasv
-   or
-   spsv
-12-3 most imp command
-   get-command
-   get-help
-   get-member
-13-To find how many cmdlet are present in shell
-   get-command
-   or 
-   get-command -CommandType Fuction | measure-object   Note- command type can be anything.
-14-To make a history of commads in txt file
-   Get-history | Out-File .\History.txt  Note- History is for ex, we can add path before giving file name   
-15-To get track record or to send the file of commands we can use Transcript Start and stop
-   Start-Transcript -Path .\D:\Work\DOCS\transcript1.txt -append
+    >>>Where-Object Status -eq 'Running'
+4- We can store in variable to get csv further.
+    $data = Get-service | where-object -eq 'stopped' | select-object Name,Status
+    $data 
+5- Now to convert into csv
+    $data | out-file .\services.csv
+    notepad .\services.csv
+6- To export
+    $data | export-csv .\services.csv
+     notepad .services.csv
+7- To check how many commands are store in shell
+    (get-command).count
+     get-command -Name *DHCP* Note- DHCP is an ex.
+8- To check history of command
+     get-history
+9-  Powershell use all data as object
+10- Shorter form of command for console/scripts
+     get-alias
+       or
+     get-alias | more
+       or
+     get-alias -Definition *Service* Noter-Service is an ex.
+11- To check service start/stop
+     gsp
+      or
+     sasv
+      or
+     spsv
+12- 3 most imp command
+     get-command
+     get-help
+     get-member
+13- To find how many cmdlet are present in shell
+     get-command
+      or 
+     get-command -CommandType Fuction | measure-object   Note- command type can be anything.
+14- To make a history of commads in txt file
+     Get-history | Out-File .\History.txt  Note- History is for ex, we can add path before giving file name   
+15- To get track record or to send the file of commands we can use Transcript Start and stop
+     Start-Transcript -Path .\D:\Work\DOCS\transcript1.txt -append
         (in between anytthing)
-   Stop-Transcript
-16-To check membership for commands 
-   Get-Member
-     or
-   Get-Command | Get-Member
-     or
-   Get-Service | Select-Object Status,Name,MachineName | Get-Member	 
-17-Troubleshooting to rectify problems
+     Stop-Transcript
+16- To check membership for commands 
+     Get-Member
+      or
+     Get-Command | Get-Member
+      or
+     Get-Service | Select-Object Status,Name,MachineName | Get-Member	 
+17- Troubleshooting to rectify problems
     Get-Command
 	 or
 	Get-help
 	 or
 	Get-Member
-18-Gathering OS Information 
+18- Gathering OS Information 
     Get-WMIObject (WMI-WIndow Management Instrument)
      or
     Get-CimInstance	 (CIM-Common Information Model)
-19-To get performance info of OS and Hardware
+19- To get performance info of OS and Hardware
     Get-Counter 
 	 or
 	Get-Counter -ListSet *Memory*
@@ -89,4 +89,61 @@
 	gvm -GetDnsClient
 	or
 	Get-DnsClient
-	 
+25- To gather logs of os 
+    Get-Command Get-*Event*
+	 or
+	Get-EventLog -List*
+	 or
+	Get-Event -logName System | gm  (Note- System is an ex we can use any name to find the logs of that.)
+26- To know of computer directly
+    Get-ComputerInfo 
+	 or
+	Get-ComputerInfo -Property *Memory*
+27- Powershell remoting in client powershell 
+    To activate it PS> Enable-PSRemoting
+	               PS> Set-PSSessionCongiguration
+    For powershell core we have run a script to enable it with administrator access.
+28- To get the item name
+    Get-ChildItem ENV: | more
+	 or
+	Get-ChildItem
+29- To know variable store in console.
+    Get-Variable | more
+30- To store variable 
+    1.1-$ComputerName = Client01
+	1.2-$ComputerName
+	    or 
+	    Write-Output "The name of remote computeris $ComputerName"
+31- To run script from console check execution policy usally its unrestricted but in case check.
+    Get-ExecutionPolicy
+      or 
+    to allow and run the scripts Get-ExecutionPolicy -ExecutionPolicy RemoteSigned
+32-	Scriptting is combination of CLI commands to automate task in your local machine or in WinRm. It is tottaly different from
+    programming as in programming we use to develop code for application.
+33- Scripts Basic - Variable | Parameters | Logic (if\for each) | Member Enumeration 
+34- Declare variable by
+    $ComputerName = Client01 (It will store the value in var $ComputerName)
+    can call it by $ComputerName only
+35- For example
+    PS> Get-service = Client01 | Where-Object -Property Status -eq 'Stopped' 
+	Its single line code without param and var.
+36- Using var
+    $ComputerName = Client01
+	get-service -ComputerName $ComputerName 
+	                                   | Where-Object -Property Status -eq 'Stopped'
+37- Using param
+     Param(
+	       [Parameter(Mandatory=$True)]
+           [String[]]
+           $ComputerName		   
+	 )
+    get-service -ComputerName $ComputerName 
+	                                   | Where-Object -Property Status -eq 'Stopped'
+38-Using logic
+     Param(
+	       [Parameter(Mandatory=$True)][String[]]$ComputerName
+          )
+	foreach($target in $ComputerName){
+	          get-service -ComputerName $ComputerName | Where-Object -Property Status -eq 'Stopped'
+	                                   
+	}
