@@ -173,3 +173,30 @@
       $CimSession = New-CimSession -ComputerName Client01 -Credential (Get-Credential)
 	  (Get-DNSClientServerAddress -cimsession $CimSession -InterFaceAlias "ethernet" -AddressFamily IPv4).ServerAddresses
     #Write-Output to screen
+40- Exploring PowerShell verbs.
+     get-verb | more
+	  or
+	 get-verb -Verb set | more
+	  or
+     get-verb -verb Set | format-list
+      or
+     get-verb -Group Security | Format-list
+    
+41- Using powershell fully with help and examples,without going out from shell itself.Take an example for service.
+    help get-service
+     or
+    help get-service -examples
+     or
+    help get-service -full
+     or
+    help get-servoce -online
+     or  
+    man get-service
+42- To gather performance related of local or remote
+    Get-Counter
+43- To know about ip configuration
+    ipconfig
+     or	 
+	ipconfig /all
+	 or 
+	ipconfig /gm
