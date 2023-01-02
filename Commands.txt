@@ -200,3 +200,8 @@
 	ipconfig /all
 	 or 
 	ipconfig /gm
+44- To know enviornment 
+    $env:computername
+45- To know commands for PSSession 
+     Get-Command *-PSSession
+46-	
