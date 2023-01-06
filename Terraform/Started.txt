@@ -1,1 +1,18 @@
 Terraform (IAC)
+1-It is open source tool which helps for automating the infastructure.
+2-It has declarative syntax and uses push based deployments.
+3-Its code can be written in JSON or HCL(Hashicorp configuration language).
+4-CORE COMPONENTS:-
+  Executable-:This is a single binary file which is invoke to run terraform, It contains all the terraform functionality
+  Congiuration files-:It may be single or multiple files with .tf extension where it combines all the file to work.
+  Provider Plugins-:The provider plugins help to terraform to communicate with any service provider via API.For ex if terraform wants
+                    to talk with AWS it will need a pluginn which is stored in terraform.registry.io .
+  State Data-:Terraform keeps update of all conifg or version of provisioning any service provider by keeping a state file in repo.
+5-Terraform Syntax or Object Refernce 
+  <resource_type>.<name_label>.<attribute>
+   EX- resource "aws_instance" "web server"{
+        name = "Web Server"
+		ebs volume ={
+		size = "50"
+		}
+	}
