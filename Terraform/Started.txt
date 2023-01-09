@@ -16,3 +16,107 @@ Terraform (IAC)
 		size = "50"
 		}
 	}
+6-INPUT_Variables
+    input_variables------>local_values----->outputvalues
+    (var_Syntax)
+	variable "name_label"{}
+	
+	variable "name_label"{
+	type = value
+	description = "value"
+    sensitive =  true | false (Boolean Values)
+	
+  Examples
+    variable = "aws_tag"{} (There is no use of argument)
+     or
+    variable = "aws_region"{
+     type = "string"
+	 description = "The region sepcified for the AWS"
+	 default = "us-east-1"
+	 sensitive = false (either you mention or don't mention it automatically takes the false value for true we have to define)
+	 }
+7-Date Types in Terraform
+    Primitive:- string,number,boolean
+	Collection:- list,set,map (Data-type must be same)
+	Structural:- tuple,object (Data-type can be mixed)
+	
+  Examples
+    variable = "aws_region"{         
+	type = List(string)
+	description = "The region sepcified for AWS"
+	default = ["us-east-1","us-east-2","us-west-1","us-west-2"]
+	}
+	Calling any var.aws_region[0] Note:-0 is for ex it can any number.
+	or
+	variable = "aws_instance_sizes"{
+	type = Map(string)
+    description	= "Region to use for instances"
+	default = {
+	  small = "t2.micro"
+	  medium = "t2.smmall"
+	  Large = "t2.large"
+	 }
+	 }
+	Referncing collecting values
+	var.<name_label>.<key_name> or var.<name_label>.["key_name"]
+	Calling any var.aws_instance.small or var.aws_instance.["small"]
+
+8-Local Values
+   locals {
+   instance_prefix = "Globo"
+   comman_tags= {
+    company = "Natgeo"
+    project = "var.project"
+	billing_code = "var.billing.code"
+   }
+   }
+  Terraform_local_refernce
+    local.<name_label> same follows with var for calling in .tf file
+	or
+	locals.instance_prefix
+	or
+	locals.comman_tags.company
+	or 
+	referencing from variable.tf
+	locals{
+	comman_tags = {
+	  company = "var.company"
+	  project = "${var.company}-${var.project}"
+	  billing_code = "var.billing.code"
+	}
+   }
+   
+9-Now in main.tf conifgure variable and local_values 
+10-OUTPUT_values :- It comes when the terraform is applied we saw the ouptut values in the console.
+    Syntax
+	 output "name_label" {
+	  value = output_values
+	  description = "Description can be any thing for ouptut"
+	  sensitive = True | Fales
+	  }
+11-Syntax_Validation :- It's a best way to check the syntax is correct or not it'll also suggest before deployments.
+    a-terraform-validate first
+	b-check syntax and logic
+	c-Does not chech the current state
+	d-No gurantee of deployment
+	
+12-Supply variable_values
+   It can be declare in 6 ways and it goes from down to bottom here, technically left to right to make it win of evalaution
+    -Default
+	-var flag
+	-var-file flag
+	-terraform.tfvars
+	 terraform.tfvars.json
+	-auto.tfvars
+	 auto.tfvars.json
+	-variable TF_VAR_ 
+13- Create variable.tfvars for storing values in same directory where main.tf and other tf files are present.
+    Syntax or ex
+	  billing code = ""
+	  project = " "
+	  for storing access key and secret key it can be placed in enviornment whether it is linux/windows machine
+	   windows
+	     $env: TF_VAR_aws_access_key=""
+		 $env: TF_VAR_aws_secret_key=""
+	  
+	
