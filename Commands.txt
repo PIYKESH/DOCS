@@ -29,7 +29,7 @@
        or
      get-alias -Definition *Service* Noter-Service is an ex.
 11- To check service start/stop
-     gsp
+     gsv
       or
      sasv
       or

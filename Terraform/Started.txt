@@ -60,7 +60,6 @@ Terraform (IAC)
 	Referncing collecting values
 	var.<name_label>.<key_name> or var.<name_label>.["key_name"]
 	Calling any var.aws_instance.small or var.aws_instance.["small"]
-
 8-Local Values
    locals {
    instance_prefix = "Globo"
@@ -86,7 +85,7 @@ Terraform (IAC)
 	}
    }
    
-9-Now in main.tf conifgure variable and local_values 
+9-Now in main.tf conifgure variable and local_values .
 10-OUTPUT_values :- It comes when the terraform is applied we saw the ouptut values in the console.
     Syntax
 	 output "name_label" {
@@ -100,6 +99,8 @@ Terraform (IAC)
 	c-Does not chech the current state
 	d-No gurantee of deployment
 	
+	terraform -validate ---> terraform -init ---> terraform -plan ---> terraform -apply
+	
 12-Supply variable_values
    It can be declare in 6 ways and it goes from down to bottom here, technically left to right to make it win of evalaution
     -Default
@@ -110,23 +111,133 @@ Terraform (IAC)
 	-auto.tfvars
 	 auto.tfvars.json
 	-variable TF_VAR_ 
-13- Create variable.tfvars for storing values in same directory where main.tf and other tf files are present.
+13-Create variable.tfvars for storing values in same directory where main.tf and other tf files are present.
     Syntax or ex
 	  billing code = ""
 	  project = " "
-	  for storing access key and secret key it can be placed in enviornment whether it is linux/windows machine
-	   windows
-	     $env: TF_VAR_aws_access_key=""
-		 $env: TF_VAR_aws_secret_key=""
-
-14- Adding more resources
-15- Terraform state data:- In general we never mess with this file in any env rather do things precautions.Here some
+	  
+	for storing access key and secret key it can be placed in enviornment whether it is linux/windows machine
+	windows declaring variable in var.tf
+	   
+			$env: TF_VAR_aws_access_key=""
+			$env: TF_VAR_aws_secret_key=""
+	(Exporting is totally differeent)
+			$Export env: TF_VAR_aws_access_key=""
+			$Export env: TF_VAR_aws_secret_key=""
+			
+14-Add more resources on demand to meet your goal.
+15-Terraform state data:- In general we never mess with this file in any env rather do things precautions.Here some
     commands for state 
 	  - terraform state list
 	  - terraform state show ADDRESS
 	  - terraform state mv SOURCE DESTINATION
 	  - terraform state rm ADDRESS
-16- First rule of terraform make all the changes within Terraform.
-17- 
+16-First rule of terraform make all the changes within Terraform.
+17-Terraform Providers - * Pubic and private registers
+                          * Official, Verified and community
+						  * Open source
+						  * Versioned
+						  * Multiple Instances
+						  
+18-Terraform Block syntax for particaular provider on demand.In that case provider.tf file is been created where state and metadata
+     in syntax is written.
+	 
+	 Syntax- terraform{
+	      required provider {
+		  provider name = {
+             source = "address_to_provider"		  
+		      #=,<,>, and ~>
+		  version = "version_expression" 
+		    }
+		} 
+	}
 	  
+	 Ex-
+	    terraform{
+	      required provider {
+		   aws = {
+             source = "harshicorp/aws"		  
+		       version = "~>3.0" 
+		    }
+		} 
+	}
 	
+	Provider block_alias syntax- 
+	                             provider "provider_name" {
+	                             alias = "alias_name"
+								 #Provider specific arguments
+							}
+						  
+		Example- (For particaular instance differeent region in aws provider) 
+		     
+			 provider "aws"	{
+		     alias = "west"
+			 #Provider specific arguments
+		}
+		resource "aws_instance" "web_server" {
+		provider = "aws.west"
+		#Resource sepcified arguments
+        type = "string"		
+		description = ""
+		default = ""
+		}
+19-Process during terraform planning
+		-Refresh and inspect state
+		-Dependency graph
+		-Addition,updates and deletion
+		-Parallel execution
+   Terraform itslef find the determining dependencies with telling how ec2 depends on s3 or subnets on vpc's
+20-Post_Deployment_Configuration:- It is required sometimes for depoyin over VM or Container or writing for sql servers or for native
+   clients.We can create resource file for that for an ex- cluster for mysql database using mysql provider.
+		Congiuration Options -Resource
+							 -Pass Data
+							 -Config Manager (Like chef,ansible,puppet)
+							 -Provisioners :- -Defined in resource
+							                  -Creation or destruction
+											  -Multiple provisioners
+											  -null_resource
+											  -Failure option (If declare this terraform will go without telling any failures.)
+											  -Last Resort!
+							There are three provisioners types :- file(remote provisioners), local_exec(Locally provisioning),
+							                                      remote_exec(It allows to run scripts over remote machines)
+21-Formatting all the terraform files including the paths by using terraform -fmt 
+22-Potential Improvments using loops and functions in the existing configuration file.
+  
+   ~>Looping 
+      -loops construct [1,2,3] count integer (It can be used when same type of resource value is existing like in case of ec2.)
+		
+		Count_Syntax Example- intance.tf
+						resource "aws_instance" "web_server" {
+						count = 4
+						tags =  {
+						name =  "global-web-${count.index}"
+								}						
+						}
+	    Count Refernces
+			<resource_type>.<name_label>[elements].<attribute>
+		     aws_instance.web_server[0].name #Single instance
+			 aws_instance.web_server[*].name #All instance
+			 
+      -for_each (it is used for modules and resources it takes set or map as a value like each intance has different operation)
+		
+		Syntax Example- s3.tf
+				resource "aws_s3_bucket_object" "sahi-paneer"{
+					for_each = {
+					paneer = "paneer.png"
+					sahi-masala = "sahi-masala.png"
+					}
+					key = for_each
+					source = ".${each.value}"
+					tags = {
+					name = "each.key"
+					}
+				}        (Note-Set is unordered set of collection and list and tuple are ordered collection)
+		
+		For_each Refernce
+			<resource>.<name_label>.[key].<attribute>
+			aws_s3_bucket_object.sahi-paneer[panner].id #single instance
+			aws_s3_bucket_object.sahi-paneer[*].id #all instance
+						
+      -dynamic_block (it is used to create multiple instances in nested block inside apprant object it accepts map or set as a value)
+23-
+	  
