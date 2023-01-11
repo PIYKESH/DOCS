@@ -204,7 +204,7 @@ Terraform (IAC)
 22-Potential Improvments using loops and functions in the existing configuration file.
   
    ~>Looping 
-      -loops construct [1,2,3] count integer (It can be used when same type of resource value is existing like in case of ec2.)
+      -loops construct [1,2,3] count integer (It can be used when same type of resource value is existing like in case of ec2,subnets,target groups.)
 		
 		Count_Syntax Example- intance.tf
 						resource "aws_instance" "web_server" {
@@ -239,5 +239,131 @@ Terraform (IAC)
 			aws_s3_bucket_object.sahi-paneer[*].id #all instance
 						
       -dynamic_block (it is used to create multiple instances in nested block inside apprant object it accepts map or set as a value)
-23-
-	  
+23-Terraform functions and expressions
+    Expressions->Interpolation and heredoc
+	             Arithmetic and logical operators
+				 Conditional Expressions
+				 For expression
+				 
+	Functions->Built in terraform
+	           Funct_name(args1,args2,args3,...)
+			   Test in terraform console
+			   Severeal broad categories
+			   
+	Common Functions Categories->Numeric min(10,20,30)
+	                             String lower ("TACOS")
+								 Collection merge("map1,map2")
+								 IP Network cidrsubnet
+								 File system file(path)
+								 Type Conversion toset()
+								 ........goes_on or find in registry.terraform.io
+ 
+    Funtions to use-First initialize the terraform main.tf then try to use console by entring terraform console.For
+	                example we can try-: min(20,9,40,45,12)
+					                     >9
+										 lower("FUCKYOU")
+										 >fuckyou
+										 cidrsubnet(var.vpc_cidr_block,8,0)
+										 >"10.0.0.0/24"
+										 lookup(local.comman_tags,"company","unkown")
+										 >"Globomantics"
+										 local.common.tags
+										 >{
+										  billing_code=""
+										  company=""
+										  project=""
+										  }
+24-Create template file seprate for intances by any name like- startup_script.tpl and define the path of this in user data resource of aws_intance
+   by user_data = templatefile("${path.module}/file.name.with extension",{
+       s3_bucket_name = aws_s3_bucket_object.id
+	   })
+25-Module--> -Components inputs---->Resources Data sources---->Outputs
+             -Code reuse
+			 -Remote or local source
+			 -Versioning
+			 -Terraform -init
+			 -Multiple intance
+       
+	        [code_dev] 
+			  | 
+			  |
+			  Root                |---(Folder)			       |---(Folder)
+			  |                   |       |                    |
+			  |                   |       |                    |   
+			  |                   |       |                    |
+			  |-->HCL file        |       |-->HCL file         |-->HCL file
+			  |                   |       |                    |
+			  |-->json file       |       |-->json file        |-->json file
+			  |                   |       |                    |
+			  |-->folder       ---|       |-->folder        ---|
+			      (conatining_                (conatining_
+				   child_modules)              child_modules)
+ 
+    Consider root--->load_balancer---> 1)vpc
+	                                   2)ec2
+									   
+26-Module Structure-> s3/main.tf
+                      variable "bucket_name"
+					  resource "aws.s3_bucket" {
+					    name = "var.bucket_name"
+					    []
+					  }
+					  Output "bucket_id"{
+					    value = aws_s3_bucket.bucket.id
+					  }
+				
+   Scoping->Child moudle cannot access resource and local values unitl its been passed in form of input_variables,therefore parent
+             module cannot access outputs of child until its been send in form of output_values by the child_modules.
+
+27-Module Syntax-> s3.tf
+                   
+                   module "name_label"{
+				    source = "local_or_remote_source"
+				    version = "version_expression"
+					provider = {
+					  moudle_provider = "parent_provider"
+					}
+					#inputs_values
+				   }				   
+				      
+                Ex- moudle "sahi_paneer" {
+				     source = ".s3/"   
+					 }
+					#inputs_values 
+					bucket_name = "mah_bucket"
+				}
+
+	Module_References-	moudle.<name_label>.<ouptut_name>
+                        moudle.sahi-paneer.bucket_id
+						
+28-For_expressions-> -Input_types--> List,set,tuple,map,or object
+                     -Result_types-->Tuple or object
+                     -Filtering with IF Statement	
+     
+    for_tuple_syntax-> #create a tuple
+                       [ for item in items : tuple_elements]
+
+                       Ex- locals{
+					          toppings = ["chesse","lettuce","paneer"]
+					   }					   
+                       [for t in local.toppings : "Globo $(t)"]
+                       
+                       #Results
+                         ["Globo chesse","Globo lettuce","Globo paneer"]
+						 
+	for_object_syntax-> #create an object
+                         {for key, value in map : obj_key=> obj_key}
+
+                        EX- locals{
+						      prices = {
+							   taco = ""
+							   burito = ""
+							   paneer = ""
+							  }
+						}
+                        {for i, p in local.prices : i=>ceil(p)}
+                       
+                        #Results
+                          {taco = "6",burito = "5",paneer = "300"}	
+29-For applying confirm first that you are not working in production as using modules and initializing and applying it may destroy
+   previous version of that,so in that case we can use terraform state mv. Here we can move from parent moudle to child_modules.						  
