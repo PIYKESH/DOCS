@@ -369,18 +369,18 @@ Terraform (IAC)
 29-For applying confirm first that you are not working in production as using modules and initializing and applying it may destroy
    previous version of that,so in that case we can use terraform state mv. Here we can move from parent moudle to child_modules.
 
-30-Worksapces-> Multiple Environment
+30-Worksapces->    Multiple Environment
                          |
-						 |
-				--------------------
-				|        |          |
-	   Development      UAT        Production
- 	      \              |           /
+			 |
+		         --------------------
+	                 |       |          |
+	       Development      UAT        Production
+ 	          \              |           /
 		   \             |          /
 		    \            |         /
-			 \           |        /
-			  \          |       /
-			 (folder_conatining_tf_file)
+		     \           |        /
+		      \          |       /
+		  (folder_conatining_tf_file)
 	
 	Terraform_workspaces-> -Commonality and differences
 	                       -absrtraction and reuse
