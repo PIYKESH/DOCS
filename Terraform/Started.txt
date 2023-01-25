@@ -24,6 +24,7 @@ Terraform (IAC)
 	variable "name_label"{
 	type = value
 	description = "value"
+	default = "value"
     sensitive =  true | false (Boolean Values)
 	
   Examples
@@ -46,7 +47,7 @@ Terraform (IAC)
 	description = "The region sepcified for AWS"
 	default = ["us-east-1","us-east-2","us-west-1","us-west-2"]
 	}
-	Calling any var.aws_region[0] Note:-0 is for ex it can any number.
+	Calling or referencing any var.aws_region[0] Note:-0 is for ex it can any number.
 	or
 	variable = "aws_instance_sizes"{
 	type = Map(string)
@@ -96,7 +97,7 @@ Terraform (IAC)
 11-Syntax_Validation :- It's a best way to check the syntax is correct or not it'll also suggest before deployments.
     a-terraform-validate first
 	b-check syntax and logic
-	c-Does not chech the current state
+	c-Does not check the current state
 	d-No gurantee of deployment
 	
 	terraform -validate ---> terraform -init ---> terraform -plan ---> terraform -apply
@@ -133,7 +134,7 @@ Terraform (IAC)
 	  - terraform state mv SOURCE DESTINATION
 	  - terraform state rm ADDRESS
 16-First rule of terraform make all the changes within Terraform.
-17-Terraform Providers - * Pubic and private registers
+17-Terraform Providers -  * Pubic and private registers
                           * Official, Verified and community
 						  * Open source
 						  * Versioned
@@ -187,7 +188,7 @@ Terraform (IAC)
 		-Addition,updates and deletion
 		-Parallel execution
    Terraform itslef find the determining dependencies with telling how ec2 depends on s3 or subnets on vpc's
-20-Post_Deployment_Configuration:- It is required sometimes for depoyin over VM or Container or writing for sql servers or for native
+20-Post_Deployment_Configuration:- It is required sometimes for depoying over VM or Container or writing for sql servers or for native
    clients.We can create resource file for that for an ex- cluster for mysql database using mysql provider.
 		Congiuration Options -Resource
 							 -Pass Data
