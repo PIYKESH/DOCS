@@ -1,1 +1,5 @@
 Docker 
+1- Docker is a advanced version of virtualisation in form of Containerisation.
+2- Hypervisor is used for virtualisation but in case of Containerisation we use Docker Engine.
+3- Docker provides all the dependencies in an environement which prevent's confilcts for code version or it can be anytghing. 
+4- Container uses light wieght OS which makes it super budget friendly and gives use flexibility. 
