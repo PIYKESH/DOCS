@@ -2,4 +2,11 @@ Docker
 1- Docker is a advanced version of virtualisation in form of Containerisation.
 2- Hypervisor is used for virtualisation but in case of Containerisation we use Docker Engine.
 3- Docker provides all the dependencies in an environement which prevent's confilcts for code version or it can be anytghing. 
-4- Container uses light wieght OS which makes it super budget friendly and gives use flexibility. 
+4- Docker uses Container on the host O.S to run the applications to use the same linux kernel as system on the host computer,rather than creating new a whole new virtual O.S.
+5- We can install in any O.S but docker engine runs natively on Linux Distribution. 
+6- Docker was first released in march 2013 by Soloman Hykes and Sebastian Pahl, Which is written in GO language.
+7- Docker is a set of platform as a service that uses O.S level virtualisation where VM Vare uses Hardware level Virtualisation.
+8- Disadvantages:- a) Docker is not a good solution for application that requires rich GUI.
+				   b) Docker does not provide cross-platform compatibility if an application is designed to run in docker.
+				   c) Docker is suitable when Dev O.S and OPS O.S are same, If the O.S is different then we should use VM.
+9- 
