@@ -9,4 +9,4 @@ Docker
 8- Disadvantages:- a) Docker is not a good solution for application that requires rich GUI.
 				   b) Docker does not provide cross-platform compatibility if an application is designed to run in docker.
 				   c) Docker is suitable when Dev O.S and OPS O.S are same, If the O.S is different then we should use VM.
-9- 
+9- Hello
