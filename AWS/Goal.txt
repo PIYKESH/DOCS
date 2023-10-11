@@ -1,1 +1,47 @@
 AWS Notes
+
+Securing Oeverview
+IDENTITY--> 
+Security Engineering-> (Identify--Data Protection--Monitor)  MSO/MSP
+Threat Modeling-> Protection over aws resources / Threat Modeling-session--Securing the application/ Infra Security-->VPC/OS/INSTANCE.
+                  
+Acesss and Auth
+* Accessing AWS--> Acesss through API EndPoints, we access through regional
+				   Securing API through Signing
+				   IAM has four key components--> Identify is created
+												  Authorizartion 
+												  Permission is bases on policy / IAM permissions: identity-based and resource-based.
+												  Policy is AWS managed(Job function specific,service specific ) and Cutomer Managed 
+												  Policy----
+												            |
+															/\
+				AWS ORG (OUs) is access through SCP     Filter  Grant
+													  |          |--IAM identity-policy
+													  |          |--Resource Based 
+					   (Services Control polices)SCP--|          |--Inline Policy
+							 (Permission Boundary)PB--|          
+							 
+* IAM Role--> Temporary based role with temp access or can use aws service via permamnent access to role
+              STS(Security Token Service) so when it is atttached to a user it help to assume specific role for service.
+* IAM User--> Threat compromised long-term creds use case--
+                                                  AWS STS
+												  Use short term security credentias
+												  STS API Calls based on usage
+												  Enforce MFA with Condidtion
+												  STS credentials for MFA protected API Calls
+												  
+			  AWS Identify and Acesss Mangement
+			  Testing policy IAM Policy Simulator
+			  
+AWS ORGANIZATION--> We can add multiple aws account to one account on to differentiate with other we can use Aactive Directory and AWS Tower to organize within ou's.
+
+
+AWS KMS--> Encryption and decryption where we covert normal plain text to cipher text and in AWS we use AWS KMS service, where AWS offers CSE/SSE under that for each
+           region AWS creates key for specfic region for every service and it will be different and it will be managed by AWS and other thing offer by AWS is CMK where
+		   it is customer managed it offers either we can use creating using KMS or can BYOK keys.
+		   
+		   AWS ACM--> Helps you to create digistal certificates or you can create sub certificates.
+
+AWS DATA Protection-- Data protection through AWS MACIE 	
+
+Infrastructure and Edge Protection--> Securing VPC for INFRA and other servicer under the infrastructure.

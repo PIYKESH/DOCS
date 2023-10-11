@@ -204,4 +204,12 @@
     $env:computername
 45- To know commands for PSSession 
      Get-Command *-PSSession
-46-	
+46-	To know the service path.
+    $service = get-wmiobject -query 'select * from win32_service where name="atlas64"'; echo $service.pathname
+	
+47- To know event log
+    Get-EventLog -LogName System -Newest 50
+48- To know memory consumption per-service
+    (Get-Process atlas*).WS/1MB
+49- To know the event log with entry type
+	Get-EventLog -LogName System -Entry Type Error
