@@ -45,3 +45,4 @@ AWS KMS--> Encryption and decryption where we covert normal plain text to cipher
 AWS DATA Protection-- Data protection through AWS MACIE 	
 
 Infrastructure and Edge Protection--> Securing VPC for INFRA and other servicer under the infrastructure.
+
