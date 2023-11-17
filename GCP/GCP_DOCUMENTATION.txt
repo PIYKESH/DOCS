@@ -1,0 +1,108 @@
+GCP(Google Cloud Provider)
+
+1>GCP has two Offerings 
+      #Iaas-Infrastructure as a service
+	  #Paas-Platform as a service
+2>IaaS is (RAW Compute,Storage,Netrwork) here custormer pays for what they alocate.
+3>PaaS is (Provide acces to Infrastructure that the application needs as in libraries) here customer pays for what they use. 
+4>Google Network worldwide is in NorthAmerica, Europe, Asia, South America and Australia.
+5>Loaction->37 Regions-> 112 Zones 
+6>Google Data Centers were first to achive the ISO 14001 Certification.
+7>All Service under the infra and also b/w the datacentres communicate via RPC calls, and it automaticatically encrypt all RPC traffic.
+8>Google was the first major cloud provider to deliver per second billing for its Infrastructure as a Service, compute offering, compute 
+  engine. In addition, per second billing is now also offered for users of Google Kubernetes Engine, our Container infrastructure as a Service.
+9>Google Cloud Hierarchy starting from the bottom up they are: resources, projects, folders, and an organization node. At the first level are resources. 
+  These represent virtual machines, Cloud Storage buckets, tables in BigQuery, or anything else in Google Cloud. Resources are organized into projects, which sit on the second level. 
+  Projects can be organized into folders, or even subfolders. These sit at the third level. And then at the top level is an organization node, which encompasses all the projects, folders, and resources in your organizationm as it's directly relates to how policies are managed and applied when you see GCP.
+10>GCP allocates globally unique project id to project (Mutable/Imutable),Project name which is chosen by us (Mutable),Project number which also globally unique (Imutable).
+11>When an organization node contains lots of folders, projects, and resources, a workforce might need to restrict who has access to what. To help with this task, administrators can use Identity and Access Management, or IAM. With IAM, administrators can apply policies that define who can do what and on which resources.
+   The “who” part of an IAM policy can be a Google account, a Google group, a service account, or a Cloud Identity domain.There are three kinds of role in IAM:basic,predefined, and custom.
+12>Cloud shell is debian based VM with a persistant 5-gb home directory.
+13>VPC Networking- Secure, individual, private cloud-computing model hosted within a public cloud.
+    *Segmenting Networks
+	*Using firewall rules to restrict access to instances.
+	*Creating static routes to forward traffic to specific destinations.
+	*VPC networks are global and can have subnets in any regions.	
+14>VM can be created via CLI or CDK, We can find one under google marketplace where we can change network setting on demand and without changing much we can create easily.
+15>VPC Peering is used to communicate b/w two different vpc's for projects and Alternatively, to use the full power of Identity Access Management (IAM) to control who and
+   what in one project can interact with a VPC in another, you can configure a Shared VPC.
+16>Cloud Load Balencing- Fully Distributed,software-defined,managed service can put load balencing in front of all your 
+   traffic: *HTTP(S)
+            *TCP traffic
+			*SSL traffic
+			*UDP traffic
+   Provides single as well as cross region load balencing, including automaticatic multi-region failover.
+   No so called pre-warming is required f you need to cross regional load balancing for a web application, 
+   use global HTTP load balancing. For secure sockets layer traffic that's not HTTP, 
+   use the global SSL proxy load balancer. If it's other TCP traffic that doesn't use SSL, 
+   use the global TCP proxy load balancer. Those last two proxy services only work for specific port numbers, and they only work for TCP. 
+   If you want to load balance UDP traffic or traffic on any port number, you can still load balance across a Google Cloud region with the regional load balancer. 
+   What all those services have in common is that they're intended for traffic coming into the Google network from the Internet, 
+   Finally the Google Cloud internal HTTPS load balancing is a proxy based regional layer seven load balancer that also enables you to run and scale your services behind an internal load balancing IP address. 
+   Internal HTTPS load balancing is a managed service based on the open Source Envoy proxy. This enables rich traffic control capabilities based on HTTPS parameters.
+17>Cloud DNS-It’s a managed DNS service that runs on the same infrastructure as Google. It has low latency and high availability, and it’s a cost-effective way to make your applications and services available to your users. 
+   The DNS information you publish is served from redundant locations around the world. Cloud DNS is also programmable. You can publish and manage millions of DNS zones and records using the Cloud Console.
+18>Cloud CDN-Content Delivery Network. This means your customers will experience lower network latency, the origins of your content will experience reduced load, and you can even save money. After HTTP(S) Load Balancing is set up, 
+   Cloud CDN can be enabled with a single checkbox. 
+19>Connecting network to VPC- By using IPsec VPN protocol- *Uses Cloud Router to make connection
+                                                           *Let other network and vpc to excahnge information over the vpn using the border gateway protocol
+                                                           *Not always the best option beacuse of security concerns or bandwidth reliability.														   
+   Direct Peering- * Put a router in the same public datacentres as a PoP
+                   * Uses a router to exchange traffic b/w networks.
+				   * More than 100 google points of presence around the world.
+   
+   Carrier Peering- * Gives direct connect access from an on-prem network through a service provider's network.
+                    * Not covered by a google service level agreement.
+				
+   Dedicated Inerconnect- * Allows for one or more direct, private connection to google.
+                          * Can be covered by up to a 99.99% SLA
+						  * Connections can be backed up by a VPN.
+   Partner Interconnect- * Useful if a datacenter is in physical location thast can't reach a dedicated interconnect colocation facility
+                         * Useful if the data needs don't warrant an entire 10 GIgabytes per seconf connection
+						 * Can be configure to support mission-critical services or applications that can tolerate some downtime
+						 * Can be covered by up to a 99.99 SLA.
+20>Cloud Storage-Object storage is a computer data storage architecture that manages data as “objects” and not as a file and folder hierarchy (file storage), or as chunks of a disk (block storage).
+   Object packaged format contains: *Binary form of the actual data itself.
+                                    *Relevant associated meta-data.
+                                    *Globally unique identifier.
+                                    *Allows you to store any amount of data and to retrive it as often.
+                                    *Fully managed scalable services that has a wide variety of uses.             
+    For best practice we can use Iam roles and ACL for security best practice.                                 
+21>Storage Class- Standard Storage(Hot data)-->Nearline Storage(Once per month)-->Coldline Storage(Once every 90 days)-->Archive Storage(Once a year)
+   *Unlimited storage
+   *worldwide Accessibolity and locations
+   *Low latency andhigh durability
+   *A uniform experience
+   *Geo-redundancy
+22>Cloud SQL- It offer relational databases like MySQL,PostgreSQL,SQL Server. A benefit of Cloud SQL instances is that they're accessible by other google Cloud services and even external services.
+   Cloud SQL can be used with App Engine using standard drivers like connector J for java or MySQL DB for Python. 
+   Compute Engine instances can be authorized to access Cloud SQL instances and configure the Cloud SQL instance to be in the same zone as your virtual machine. Cloud SQL also supports other applications and tools that you might use like SQL Workbench, Toad, and other external applications using standard MySQL drivers.
+23>Cloud Spanner-It is RDB which scales horizontally is strongly consistent and speaks SQL.Spanner power's google's $80 billion business.
+24>Firestore-It is no-sql cloud database for mobile,web,server development.It also scales in horizontal alsodesigned to make simple, one-time fetch queries efficiently. It caches data that an app is actively using, so the app can write, read, listen to, and query data even if the device is offline
+   . When the device comes back online, Firestore synchronizes any local changes back to Firestore.  
+25>Cloud Bigtable- It is no-sql big data database service it is designed to handle massive workloads,low latency,high throughput.Usually used when custormer uses more than 1tb of semi-structured/structured data, rapid changing, work with no-sql data,
+   run machine learning algo on the data, running asynchronous batch or synchronus real time processing on the data. 
+26>Containers-is an invisible box around your code and it's dpendencies has limited access to its own partition of the file system and hardware, needs only an os that supports containers and a container runtime on each host.Scales likes PaaS, but gives nearly the sam flexibility as IaaS.
+   
+   Kubernetes- *Open source platform for managing containerized workloads and services.
+               *Makes it easy to orchestrate many containers on many host sclae them as microservices, and deploy rollouts and rollbacks.
+			   *Is a set of APIs to deploy containers on a set of nodes called a cluster.
+			   *Divided into set of primary components that runs as the control plane and a set of nodes that run containers.
+			   *You can describe a set of applications and how they should interact with each othe and Kubernetes figures how to make that happen.
+   Pod-It is a smallest unit which help you to create and deploy container.Pod provides a unique network IP and set of ports for your containers, and configurable options that govern how your containers should run. One way to run a container in a pod in Kubernetes is to use the kubectl run command Kubernetes creates a service with a fixed IP address for your pods. And a controller says, I need to attach an external load balancer with a public IP address to that service so others outside the cluster can access it. In GKE, the load balancer is created as a network load balancer. 
+       Any client that reaches that IP address will be routed to a pod behind the service.
+	   
+                         ||||||        	   
+	                       ||
+						||||||||
+						   |
+						   |
+						   |
+				 Cluster K1|
+				           |
+  Control Plane  |--------------------|
+  |  Deploy    | |Service with fixedIP|
+  |	           | | Pod    Pod    Pod  |
+  |	           | |Node   Node   Node  |
+	   
+27>GKE-Google Kubernetes Engine 
