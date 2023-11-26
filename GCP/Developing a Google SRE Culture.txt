@@ -1,0 +1,6 @@
+Google SRE
+https://www.cloudskillsboost.google/course_templates/266
+
+DevOps and SRE--> It's important to understand that DevOps is a philosophy versus a development methodology or technology. Although DevOps philosophy highlights critical ways for IT teams to operate, it doesn't give explicit guidance on how an organization should implement practices 
+                  to be successful.That's where SRE comes in Just as DevOps aims to close the gap between software development and software operations, this new SRE approach is a concrete way to solve problems that the DevOps philosophy addresses. Note that SRE is both a practice and a role.
+				  

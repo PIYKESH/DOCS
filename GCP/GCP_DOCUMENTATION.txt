@@ -105,4 +105,23 @@ GCP(Google Cloud Provider)
   |	           | | Pod    Pod    Pod  |
   |	           | |Node   Node   Node  |
 	   
-27>GKE-Google Kubernetes Engine 
+27>GKE-Google Kubernetes Engine GKE is a Google hosted managed Kubernetes service in the cloud. The GKE environment consists of multiple machines, specifically compute engine instances, grouped together to form a cluster. You can create a Kubernetes cluster with Kubernetes engine by using a Google Cloud Console or the gcloud command that's provided by the Cloud Software Development Kit. GKE clusters can be customized and they support different machine types,
+   number of nodes, and network settings. Kubernetes provides the mechanisms through which you interact with your cluster. 
+   Kubernetes commands and resources are used to deploy and manage applications, perform administration tasks, set policies, and monitor the health of deployed workloads.
+28>Cloud Run-*A managed compute platform that run statless containers.
+             *Severless, removing the need for infrastructure management.
+             *Builty on Knative, an open API and runtime environment built on kubernetes.
+             *Can automaticatically scale up and down from zero almost instantaneously, charging only for the resources used.
+			
+   Works in three steps 1-Write your code
+	                     2-Build and package
+						 3-Deploy to Cloud Run
+   After deploying the container, we get https url back, rest cloud run does the job we handle only handeling web requests.
+   
+29>Cloud-Functions>*Light weight, event based asynchronous compute solution
+                   *Allows you to create small, single-purpose functions that respond to cloud events without the need to manage a server or a runtime environment.
+				   *construct application workflows from individual business logic tasks and connect and extend cloud services.
+				   *Billed to the nearest 100 milliseconds, but only while your code is running.
+				   *Cloud Functions supports writing source code in a number of programming languages. These include Node.JS, Python, Go, Java, .Net Core, Ruby and PHP.
+				   *Events from Cloud Storage and PubSub can trigger Cloud Functions asynchronously or you can use HTTP invocation for synchronous execution.
+30>
