@@ -1,6 +1,40 @@
 Google SRE
 https://www.cloudskillsboost.google/course_templates/266
 
-DevOps and SRE--> It's important to understand that DevOps is a philosophy versus a development methodology or technology. Although DevOps philosophy highlights critical ways for IT teams to operate, it doesn't give explicit guidance on how an organization should implement practices 
-                  to be successful.That's where SRE comes in Just as DevOps aims to close the gap between software development and software operations, this new SRE approach is a concrete way to solve problems that the DevOps philosophy addresses. Note that SRE is both a practice and a role.
-				  
+DevOps and SRE--> It's important to understand that DevOps is a philosophy versus a development methodology
+                  or technology. Although DevOps philosophy highlights critical ways for IT teams to operate, 
+				  it doesn't give explicit guidance on how an organization should implement practices 
+                  to be successful.That's where SRE comes in Just as DevOps aims to close the gap between
+				  software development and software operations, this new SRE approach is a concrete way to solve
+				  problems that the DevOps philosophy addresses. Note that SRE is both a practice and a role.
+SRE--> *SRE practices support engineering teams working at a high velocity to release features. At the same time, 
+        they maintain practical goals and measures to prevent failures so that your end users are happy.
+       *SRE teams focus on practices such as automation, learning from failure, and reducing the cost of failure. 
+	    By following principles like these, your teams will be less stressed and less inundated with mundane, repetitive work; 
+		they'll be able to do more valuable work at a quicker pace while also focusing on the reliability of your services.
+	
+       Postmortems/Retrospective- *A postmortem's ultimate deliverable is a written record of the incident that consists of specific parts.
+                                  *Details of the incident and its timeline. The actions taken to mitigate or resolve the incident. The incidents impact 
+                                   It's trigger or root cause or causes. The follow-up actions to prevent its recurrence. Particularly, a blameless postmortem
+								   only focuses on the root causes of an incident without accusing a particular person or team, or their actions or behavior. 
+								   Specific people will write and review the postmortem, but everyone who had a role in the event will be
+                                   a part of the postmortem process so you can collect as much information as possible.	
+	   Blamelessness and Psych Safety- Blamelessness can have an immense positive effect on the culture of your organization. Specifically, it creates a culture 
+	                                   of psychological safety for your teams. So what is meant by psychological safety? Psychological safety is the belief that
+									   a person will not be punished or humiliated for speaking up with ideas, questions, concerns, or mistakes. Feedback to a time
+									   when you had a concern about a task you are asked to perform as a manager or individual contributor. Maybe there was an approach
+									   your manager asked your team to take, and while everyone else agreed, you had some reservations.
+       SLOs and error budgets- *Error budgets create a common incentive for developers and SREs to find the right balance between innovation and reliability. 
+	                           Developer teams can manage the error budget on their own, knowing that unrealistic reliability targets will slow down innovation. 
+							   It creates a shared responsibility between teams for system uptime, as infrastructure failures take away developers' error budget.
+							   Another SRE practice that ties to error budgets and creates shared responsibility between dev and ops teams are service-level objectives, or SLOs. 
+							   SLOs are precise numerical targets for system reliability.
+	                           *SLOs are precise numerical targets for system reliability. These targets are agreed upon between stakeholders, thereby sharing ownership of 
+							    reliability, and hopefully mitigating any future confusion or conflict. Since you want your dev teams to work at a high velocity
+								,SLOs can help determine how fast is too fast. Measuring SLO performance gives a real- time indication of the reliability cost of new features.
+								If everyone agrees that the SLO represents the point at which you are no longer meeting the expectations of your users, then broadly speaking
+								,being well within your SLO is a signal that you can move faster without causing those users pain.                                                         
+      (Service-level indicators or SLIs)- *An SLI tells you at any moment in time how well your service is doing. It's a quantifiable measure of service reliability.
+                                          *SLIs should map to user expectations, such as response time latency and quality, data processing, correctness and freshness,
+										   or storage latency and throughput b/w 0 to 100 your SLO should generally be just short of 100%, like 99.9%, or 'three nines.' 	
+										   

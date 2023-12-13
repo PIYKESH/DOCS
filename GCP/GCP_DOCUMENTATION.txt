@@ -124,4 +124,3 @@ GCP(Google Cloud Provider)
 				   *Billed to the nearest 100 milliseconds, but only while your code is running.
 				   *Cloud Functions supports writing source code in a number of programming languages. These include Node.JS, Python, Go, Java, .Net Core, Ruby and PHP.
 				   *Events from Cloud Storage and PubSub can trigger Cloud Functions asynchronously or you can use HTTP invocation for synchronous execution.
-30>
