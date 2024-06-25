@@ -1,12 +1,73 @@
 Docker 
-1- Docker is a advanced version of virtualisation in form of Containerisation.
-2- Hypervisor is used for virtualisation but in case of Containerisation we use Docker Engine.
-3- Docker provides all the dependencies in an environement which prevent's confilcts for code version or it can be anytghing. 
-4- Docker uses Container on the host O.S to run the applications to use the same linux kernel as system on the host computer,rather than creating new a whole new virtual O.S.
+1- Docker is a advanced version of virtualization in form of Containerization.
+2- Hypervisor is used for virtualization but in case of Containerization we use Docker Engine.
+3- Docker provides all the dependencies in an environment which prevents conflicts for code version or it can be anything. 
+4- Docker uses Container on the host O.S to run the applications to use the same Linux kernel as system on the host computer, rather than creating new a whole new virtual O.S.
 5- We can install in any O.S but docker engine runs natively on Linux Distribution. 
 6- Docker was first released in march 2013 by Soloman Hykes and Sebastian Pahl, Which is written in GO language.
-7- Docker is a set of platform as a service that uses O.S level virtualisation where VM Vare uses Hardware level Virtualisation.
+7- Docker is a set of platform as a service that uses O.S level virtualization where VM ware uses Hardware level Virtualization.
 8- Disadvantages:- a) Docker is not a good solution for application that requires rich GUI.
 				   b) Docker does not provide cross-platform compatibility if an application is designed to run in docker.
 				   c) Docker is suitable when Dev O.S and OPS O.S are same, If the O.S is different then we should use VM.
-9- Hello
+
+
+Microservices Architecture-A variant of the service-oriented architecture (SOA) structural style- arranges an application as a collection of loosely coupled services. In a microservices arch, , services are fine grained and the protocols are light weight.
+
+Segregated functionality into smaller separate services each with a single responsibility, Scales out by deploying each service independently, Loosely coupled, Can be written by smaller teams, Each micro services can own it's own data/database.
+
+Monolith Architecture- Built as a single unit, deployed as single unit, Duplicated on each server ex- 3 tier apps.
+
+From Monolith to microservices
+*Break your application/systems in small units.
+*Use the strangler pattern.
+
+Microservices- Benefits
+*Improved fault isolation
+*Eliminate vendor or technology lock-in
+*Ease of understanding
+*Smaller and faster deployments
+*Scalability
+
+Microservices- Drawbacks
+*Complexity is added to resolve complexity issues
+  -Is your team trained, ready and has made POC's
+  -Don't start with a complex infrastructure.
+*Testing may appear simpler but is it?
+*Deployment may appear simpler but is it?
+  Hard to do with multiple teams.
+  One microservices updated can impact many microservices.
+*Multi databases?
+*Latency issues
+*Transient Errors
+*Multiple point of failures.
+
+Container- A unit of software/deployment, code/runtime/system tools system libraries
+
+Why containers?
+-Move faster by deploying smaller units
+-Use fewer resources
+-Fit more into the same host
+-Faster automation
+-Portability
+
+VM vs Containers
+
+Virtual Machine 
+*Large footprint
+*Slow to boot
+*Ideal for long running tasks
+
+Container
+*Lightweight
+*Quick to start
+*Portable
+*Ideal for short lives tasks
+
+
+
+
+
+
+
+
+
