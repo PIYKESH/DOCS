@@ -63,11 +63,70 @@ Container
 *Portable
 *Ideal for short lives tasks
 
+Docker commands like-: docker --version
+                       docker ps , docker ps -a, docker run -image name, docker stop -image name, docker rmi image name,
+                       docker pull, docker push, 
 
+Rest refer to images in the folder.
 
+Docker file {syntax}
 
+example: FROM ngnix:alpine
+         COPY ./usr/share/ngnix/html
 
+#build
+docker build -t webserver-image:v1.
 
+#run
+docekr run -d -p 8080:80 webserver-image:v1
+#dicplay
+curl localhost:8080
 
+example: FROM alpine --> It's the base image 
+         RUN apk add -update nodejs nodejs-npm --> install Node and NPM using package manager
+         COPY ./src --> copy the files from the build context
+         WORKDIR /src 
+         RUN npm install -->Run a command
+         EXPOSE 8080:80 -->Add a metadata
+         ENTRYPOINT ["node", "./app.js"] -->what to run
 
+Docker tag=> Create a target image
+             * name:tag
+                   *myimage:v1
+             *repository/name:tag
+                   *myacr.azurecr.io/myimage:v1
+
+Data Persisting
+
+Containers are ephemerous and stateless
+* You usually don't store data in containers
+* Non-persistent data
+  *Locally on a writable layer
+  *when containers are destroyed, so the data inside them
+
+* Persistent data
+  *Stored outside the container in a volume.
+  *A volume is mapped to a logic folder.
+
+Volumes
+* Maps a folder on the host to a logical folder in the container.
+
+ docker volumes command: docker create volume, docker create volume ls, docker volume inspect [volumeName], docker volume rm [volumeName],
+docker volume prune
+
+Mapping volume with container
+
+Step-1 Crate volume
+Step-2 Inspect the volume
+Step-3 List the volume
+Step-4 Run a container with volume
+       docker run -d --name devtest -v myvol:/app ngnix:latest 
+
+Better to mapping the local folder instead the vol
+       docker run -d --name devtest -v d:/test:/app ngnix:latest
+  
+Inspect the container
+       docker inspect devtest 
+
+docker 
 
