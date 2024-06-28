@@ -111,7 +111,7 @@ Containers are ephemerous and stateless
 Volumes
 * Maps a folder on the host to a logical folder in the container.
 
- docker volumes command: docker create volume, docker create volume ls, docker volume inspect [volumeName], docker volume rm [volumeName],
+ docker volumes command: docker volume create, docker create volume ls, docker volume inspect [volumeName], docker volume rm [volumeName],
 docker volume prune
 
 Mapping volume with container
@@ -128,5 +128,236 @@ Better to mapping the local folder instead the vol
 Inspect the container
        docker inspect devtest 
 
-docker 
+Docker yaml 
+
+*YAML: Yaml Ain't Markup Language
+*Human friendly data serialization standard
+*Used by docker-compose and Kubernetes.
+
+
+
+# comment in yaml looks like this
+
+key: value
+another_key: Another value goes here
+a_number_value: 100
+
+#Nesting uses indentation. 2 sapces indent is preferred (but not requirted)
+a_nested_map:
+  key: value
+  another_key: Another Value
+  another_nested_map:
+    hello: world
+
+# Sequence (quivalent to list or arrays) look like this
+# (note that the '_' counts as indentation )
+
+a_sequence:
+  - Item: 1
+  - Item: 2
+
+
+Docker Compose Concepts
+*Define and run multi-container's application
+*Define using YAML files.
+*Run using the docker CLI with the compose plugin
+    *Docker compose
+*Compose Specs    
+    *https://compose-spec.io
+
+Compose V2
+*GA at DockerCon Live 2022
+*Incorporates the docker compose command into the doceker CLI
+  *You type docker compose instead of docker compose
+  *Drop-in replacement for docker compose
+  *docker compose commands maps directly to the docker compose ones
+*Installed with docker desktop
+  *Linux: apt-get install docker compose-plugin
+*Written in GO
+  *docker compose is written in python
+
+*In summary, it's simply the faster version of the good old docker compose tool that is shipped as plugin instead of a python app.
+
+
+
+Docker Compose file Syntax containing three containers
+
+version: '3.9'
+
+services:
+  webapi1:
+    image: academy.azure.io/webapi1
+    ports:
+      - '8081:80'
+    restart: always
+
+  webapi2:
+    image: academy.azure.io/webapi2
+    ports:
+      - '8082:80'
+    restart: always
+  
+  apigatway:
+    image: academy.azurecr.io/apigateway
+    ports: 
+      - '80:80'
+    restart: always
+
+
+Docker Compose Features:-
+
+Resource Limits example:
+services:
+  redis:
+    image: redis:alpine
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 150M
+        reservations:
+          cpus: '0.25'
+          memory: 20M  ----->inital allocation
+
+Environment Variables:-
+*We can set key value pair for each service under the env. variables for an running instance.
+
+Example:
+
+services:
+  web:
+    image: ngnix:alpine
+    environment:
+      - DEBUG=1
+      - FOO=BAR
+
+*But these values can be overridden by docker compose up -d -e DEBUG=0
+*We can reference an env variable using the docker curly bracket syntax this way we can set the variable on your machine or server and use it directly in the compose file you can compose values in a file that you will name .env located in the same folder as the compose file.
+
+Networking:-
+
+Example:-
+services:
+  web:
+    image: ngnix:alpine
+    ports:
+      - '8080:80'
+
+  db:
+    image: postgress
+    ports:
+      - '5432'
+
+
+Example:-
+services:
+  proxy:
+    image: ngnix
+    networks:
+      - frontend
+
+  app:
+    image: myapp
+    networks:
+      - frontend
+      - backend
+  
+  db:
+    image: postgress
+    networks: 
+      - bakend
+
+network
+  frontend:
+  backend:
+
+Dependence:-
+
+services:
+  app:
+    image: myapp
+    depends_on:
+      - db
+db:
+  image: postgres 
+  networks:
+    - back-tier
+
+
+Volumes- Named:-
+
+services:
+  app:
+    image: myapp
+    depends_on:
+      - db
+   
+  db:
+    image: postgres
+    volumes:
+      - db-data:/etc/data ---->mapping / Append with optional flags :ro/:rw
+    networks:
+      - back-tier
+
+volumes: ----> Volumes definition
+  db-data:
+
+
+Restart Policy:- * No
+                     * The default restart policy.
+                     *Does not restart a container under any circumstances.
+
+                 * always
+                     *Always restarts the container until it's removal
+
+                 * on-failure
+                     *Restarts a container if the exit code indicates an error.
+                 * unless-stopped
+                     *Restarts a container irrespective of the exit code but will stop
+                      restarting when the service is stooped or removed.
+           
+Example-
+services:
+  app:
+    image: myapp
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    image: postgress
+    restart: always
+
+Container registries:- *Central repo for containers images
+                       *Private or/ public
+                       *Docker Hub
+                          *hub.docker.com
+
+                       *Microsoft
+                          *azure Container Registry
+                          *Microsoft Container Registry (Public Images)
+                            *mcr.micrososft.com
+
+
+                       *Amazon Elastic Container Registry
+                       *Google Container Registry
+
+
+# tag the image previously built
+docker tag my_image k8sacademy/my_image:latest
+
+docker build -t <your_registry_name/expresss:v1>
+
+#push the image with you re
+docker push piykesh/myimage:latest
+docker pull piykesh/myimage:latest
+
+
+
+
+
+
+
+
+
 
