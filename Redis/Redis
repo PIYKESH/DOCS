@@ -1,0 +1,263 @@
+Redis
+
+What is Redis ?
+
+> In-memory data structure store that can be used as a database, cache, and message broker
+> Redis supports various data structures such as strings, hashes, lists, sets, sorted sets,
+  bitmaps, hyperloglogs, and geospatial indexes.
+  
+Features of Redis
+
+>In-Memory Storage:
+  Fast read and write operations.
+  Ideal for real time requirements
+>Persistence:
+  Provide option to dump data to disk.
+>Data Structures:
+  Support various String, Hashset, List, Bitmap etc.
+>Replication:
+  Redis supports master-slave replication, allowing data to be replicated to multiple
+  servers for redundancy and failover
+>Pub/Sub Messaging:
+  Redis can act as a message broker using its publish/subscribe capabilities, allowing
+  for real-time messaging applications.  
+  
+Redis Architecture
+>Redis workd in server client architecture or master slave architecture.
+ Where client will be acting as slave and redis as master where the slave will be sending
+ requests to master in reverse the response will b given by master.
+ 
+To know about commands use help @(command)
+
+ 
+Redis Types
+
+1. Strings
+The most basic type in Redis. Strings can store any type of data, such as text or binary data (like
+images or serialized objects).
+Commands:
+
+SET key value
+
+GET key
+INCR key (increments the integer value of a key by one)
+APPEND key value
+
+2.Hashes
+Description: A collection of key-value pairs where keys and values are both strings. Ideal for
+representing objects.
+Commands:
+
+HSET key field value
+HGET key field
+HGETALL key
+HDEL key field 
+
+3.Lists
+An ordered collection of strings. You can add elements to the head (left) or tail (right) of the list.
+Commands:
+LPUSH key value (adds an element to the head)
+RPUSH key value (adds an element to the tail)
+LPOP key (removes and returns the first element)
+RPOP key (removes and returns the last element)
+LRANGE key start stop (retrieves a range of elements)
+
+4.Set
+An unordered collection of unique strings. Useful for storing unique elements.
+
+5.SortedSet
+Similar to sets but with a score associated with each member, which orders the set. Useful for leaderboard-like
+functionalities.
+
+6.Bitmaps
+Strings representing binary data. You can manipulate individual bits in a string value.
+
+7.HyperLogLogs
+A probabilistic data structure used for counting unique elements with low memory usage.
+
+8.Geospatial Indexes
+Store geospatial items and perform queries by radius or bounding box.
+
+9.Streams
+Streams are used for managing data logs and real-time message streaming.
+
+Example=> SET KEY 
+127.0.0.1:6379> set name "Durgesh Kumar Tiwari"
+OK
+127.0.0.1:6379> get name
+"Durgesh Kumar Tiwari"
+127.0.0.1:6379> SET channel "Learn Code With Durgesh"
+OK
+127.0.0.1:6379> get channel
+"Learn Code With Durgesh"
+127.0.0.1:6379> append channel " , Please subscribe to youtube channel."
+(integer) 62
+127.0.0.1:6379> get channel
+"Learn Code With Durgesh , Please subscribe to youtube channel."
+127.0.0.1:6379> incr user_id
+(integer) 1
+127.0.0.1:6379> get user_id
+
+127.0.0.1:6379> incr user_id
+(integer) 2
+127.0.0.1:6379> incr user_id
+(integer) 3
+127.0.0.1:6379> incr user_id
+(integer) 4
+127.0.0.1:6379> incr user_id
+
+
+Example=> HASHES
+127.0.0.1:6379> HSET student name "rajan" phone "87979"
+(integer) 2
+127.0.0.1:6379> HGET student name
+"rajan"
+127.0.0.1:6379> HSET student phone
+(error) ERR wrong number of arguments for 'hset' command
+127.0.0.1:6379> HGET student phone
+"87979"
+127.0.0.1:6379> HGETALL student
+1) "name"
+2) "rajan"
+3) "phone"
+4) "87979"
+127.0.0.1:6379> HDEL student phone
+(integer) 1
+127.0.0.1:6379> HGETALL student
+1) "name"
+2) "rajan"
+127.0.0.1:6379> HEXISTS student name
+(integer) 1
+127.0.0.1:6379> HDEL student phone
+(integer) 1
+127.0.0.1:6379> HGETALL student
+1) "name"
+2) "rajan"
+127.0.0.1:6379> HEXISTS student name
+(integer) 1
+127.0.0.1:6379> HEXISTS student phone
+(integer) 0
+127.0.0.1:6379> HKEYS student
+1) "name"
+127.0.0.1:6379> HSET student college substring
+(integer) 1
+127.0.0.1:6379> HGETALL
+(error) ERR wrong number of arguments for 'hgetall' command
+127.0.0.1:6379> HGETALL student
+1) "name"
+2) "rajan"
+3) "college"
+4) "substring"
+127.0.0.1:6379> HGETALL student
+1) "name"
+2) "rajan"
+3) "college"
+4) "substring"
+5) "phone"
+6) "235252"
+127.0.0.1:6379> HKEYS
+(error) ERR wrong number of arguments for 'hkeys' command
+127.0.0.1:6379> HKEYS student
+1) "name"
+2) "college"
+3) "phone"
+127.0.0.1:6379> HLEN student
+(integer) 3
+127.0.0.1:6379> HMGET student
+(error) ERR wrong number of arguments for 'hmget' command
+127.0.0.1:6379> HMGET student
+(error) ERR wrong number of arguments for 'hmget' command
+127.0.0.1:6379> HMGET student name
+1) "rajan"
+
+
+Example=>List
+127.0.0.1:6379> LPUSH friends ram shyam krishna seeta
+(integer) 6
+127.0.0.1:6379> LLEN friends
+(integer) 6
+127.0.0.1:6379> LRANGE friends 0 3
+1) "seeta"
+2) "krishna"
+3) "shyam"
+4) "ram"
+127.0.0.1:6379> RPUSH marks 34 12 11 6 76
+(integer) 5
+127.0.0.1:6379> LRANGE marks 0 4
+1) "34"
+2) "12"
+3) "11"
+4) "6"
+5) "76"
+127.0.0.1:6379> LSET friends 1 ramu
+OK
+127.0.0.1:6379> LRANGE marks 0 4
+1) "34"
+2) "12"
+3) "11"
+4) "6"
+5) "76"
+127.0.0.1:6379> LRANGE friends 0 4
+1) "seeta"
+2) "ramu"
+3) "shyam"
+4) "ram"
+5) "ankur"
+127.0.0.1:6379> LRANGE marks 0 4
+1) "34"
+2) "12"
+3) "11"
+4) "6"
+5) "76"
+
+This we can use with spring framework intalizer by telling and putting the values and dependencies in the 
+intializer to create the zip file for java project or kotlin, then later we can declare the redis host and
+port under the application.properties file.
+
+Redis Pub/Sub
+
+Pub/Sub (short for publish/subscribe) is a messaging technology that facilitates
+communication between different components in a distributed system.
+It is an asynchronous and scalable messaging service that separates the
+services responsible for producing messages from those responsible for
+processing them.
+It can be used in Real-time messaging and chat, News updates, Alert and
+notification, loT devices, Load Balancing, Online gaming, live streaming etc .
+
+How Pub/Sub Works
+
+Pub/Sub is fundamentally a simple communication model where a broker
+receives messages from a publisher and distributes them to one or more
+subscribers.
+
+Type of Models :-
+One to one - one publisher one subscriber
+One to many - one publisher many subscriber
+Many to one - many publishers one subscriber
+Many to many - many publishers many subscribers
+
+Redis Pub/Sub
+
+Publisher - Publisher is an application or service that sends messages.
+Subscriber - Subscriber is an application or service that receives messages.
+Channel - Channel is the subject or the information feed. The publisher can
+push messages to the channel, which will broadcast messages to the
+subscribers.
+Message - Message holds the received or transmitted data throughout the
+system.
+Broker - Broker is responsible for guiding the messages throughout the
+system. It acts as a middleman to establish and exchange communication
+between the publisher and subscriber.
+
+Commands
+
+SUBSCRIBE - It is used to subscribes the client to the specified channels.
+PUBLISH - It is used to post a message to the given channel.
+UNSUBSCRIBE - It is used to unsubscribes the client from the given
+channels, or from all of them if none is given.
+PSUBSCRIBE - It is used to subscribes the client to the given patterns.
+PUBSUB CHANNELS - It is used to list the currently active channels.
+PUBSUB NUMSUB - It returns the number of subscribers (exclusive of
+clients subscribed to patterns) for the specified channels.
+PUNSUBSCRIBE - It is used to unsubscribes the client from the given
+patterns, or from all of them if none is given.

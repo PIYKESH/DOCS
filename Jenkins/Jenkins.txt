@@ -1,0 +1,36 @@
+Jenkins
+
+Password-
+3d769d436a2e45319914399a5c62bba0
+
+Why use Jenkins for CI/CD?
+Jenkins is an open-source automation server that facilitates the automation of several stages of the software development lifecycle, such as application development, testing, and deployment.
+
+It is a server-based application and requires a servlet container like Apache Tomcat to run on various platforms like Windows, Linux, macOS, Unix, etc.
+To use Jenkins, pipelines or a series of steps must be set up for the Jenkins server.
+The Jenkins CI Pipeline is a robust machine consisting of tools designed to host, monitor, and compile test codes /changes.
+It uses a Continuous Integration Server (Jenkins, Bamboo, Cruise Control, TeamCity), a source control tool such as CVS, SVN, GIT, Mercurial, Perforce, ClearCase, a build tool such as Make, ANT, Maven, Ivy, Gradle, and finally an automation testing framework such as Selenium, Appium, Test Complete, UFT, etc.
+
+Getting started with Jenkins=>
+
+Jenkins is distributed as a WAR (web archive) file or as installer packages for the major operating systems: Homebrew package, Docker image, and source code. Jenkins is primarily Java-based and supports installation and scaling on Kubernetes and can be executed on the Jenkins WAR standalone or as a servlet in a Java application server such as Tomcat. In any way, it produces a web user interface and accepts calls to its REST API (Application Programming Interface). When running for the first time, Jenkins creates an administrative user with a long random password that can be pasted onto the initial web page to unlock the installation.
+
+
+Working with REMOTE Server using SSH Plugin => The path will in var/lib/Jenkins/workspace/
+
+Jenkins + Ansible Playbook=> Quick overview of Ansible
+*Installing Ansible plugin
+*Jenkins job with 'Invoke Ansible Playbook'
+*Perform task on Local vs Remote host
+*Ansible job execute as 'Jenkins' user
+*Execute task which required SUDO access
+*Basic project of Updating the Webpage of re
+  server and publish it.
+
+Environment Variables=> We can use predefined variables by Jenkins
+                                                Build Numbers, Workspace etc.
+
+Created a freestyle project in Jenkins with maven
+https://github.com/jaiswaladi246/Ekart.git  docker/Docker file
+
+SonarQube => It is used to check security and to check source code vulnerability to also to download report we have to used the cnes  plugin to get that always match the through SonarQube version matrix

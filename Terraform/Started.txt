@@ -5,9 +5,10 @@ Terraform (IAC)
 4-CORE COMPONENTS:-
   Executable-:This is a single binary file which is invoke to run terraform, It contains all the terraform functionality
   Congiuration files-:It may be single or multiple files with .tf extension where it combines all the file to work.
-  Provider Plugins-:The provider plugins help to terraform to communicate with any service provider via API.For ex if terraform wants
-                    to talk with AWS it will need a pluginn which is stored in terraform.registry.io .
-  State Data-:Terraform keeps update of all conifg or version of provisioning any service provider by keeping a state file in repo.
+  Provider Plugins-:The provider plugins help to terraform to communicate with any service provider via API.For ex if terraform 
+                    wants to talk with AWS it will need a plugin which is stored in terraform.registry.io .
+  State Data-:Terraform keeps update of all conifg or version of provisioning any service provider by keeping a state file in 
+              repo.
 5-Terraform Syntax or Object Refernce 
   <resource_type>.<name_label>.<attribute>
    EX- resource "aws_instance" "web server"{
@@ -18,9 +19,11 @@ Terraform (IAC)
 	}
 6-INPUT_Variables
     input_variables------>local_values----->outputvalues
-    (var_Syntax)
+    
+	(var_Syntax)
 	variable "name_label"{}
 	
+	Example-
 	variable "name_label"{
 	type = value
 	description = "value"
@@ -36,6 +39,7 @@ Terraform (IAC)
 	 default = "us-east-1"
 	 sensitive = false (either you mention or don't mention it automatically takes the false value for true we have to define)
 	 }
+	 
 7-Date Types in Terraform
     Primitive:- string,number,boolean
 	Collection:- list,set,map (Data-type must be same)
@@ -140,8 +144,8 @@ Terraform (IAC)
 						  * Versioned
 						  * Multiple Instances
 						  
-18-Terraform Block syntax for particaular provider on demand.In that case provider.tf file is been created where state and metadata
-     in syntax is written.
+18-Terraform Block syntax for particaular provider on demand.In that case provider.tf file is been created where state and 
+   metadata in syntax is written.
 	 
 	 Syntax- terraform{
 	      required provider {
