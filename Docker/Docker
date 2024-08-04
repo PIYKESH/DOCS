@@ -12,9 +12,11 @@ Docker
 				   c) Docker is suitable when Dev O.S and OPS O.S are same, If the O.S is different then we should use VM.
 
 
-Microservices Architecture-A variant of the service-oriented architecture (SOA) structural style- arranges an application as a collection of loosely coupled services. In a microservices arch, , services are fine grained and the protocols are light weight.
+Microservices Architecture-A variant of the service-oriented architecture (SOA) structural style- arranges an application as a collection 
+of loosely coupled services. In a microservices arch, , services are fine grained and the protocols are light weight.
 
-Segregated functionality into smaller separate services each with a single responsibility, Scales out by deploying each service independently, Loosely coupled, Can be written by smaller teams, Each micro services can own it's own data/database.
+Segregated functionality into smaller separate services each with a single responsibility, Scales out by deploying each service 
+independently, Loosely coupled, Can be written by smaller teams, Each micro services can own it's own data/database.
 
 Monolith Architecture- Built as a single unit, deployed as single unit, Duplicated on each server ex- 3 tier apps.
 
@@ -112,7 +114,7 @@ Containers are ephemerous and stateless
 Volumes
 * Maps a folder on the host to a logical folder in the container.
 
- docker volumes command: docker volume create, docker create volume ls, docker volume inspect [volumeName], docker volume rm [volumeName],
+docker volumes command: docker volume create, docker create volume ls, docker volume inspect [volumeName], docker volume rm [volumeName],
 docker volume prune
 
 Mapping volume with container
@@ -168,7 +170,7 @@ Docker Compose Concepts
 
 Compose V2
 *GA at DockerCon Live 2022
-*Incorporates the docker compose command into the doceker CLI
+*Incorporates the docker compose command into the docker CLI
   *You type docker compose instead of docker compose
   *Drop-in replacement for docker compose
   *docker compose commands maps directly to the docker compose ones
@@ -233,22 +235,46 @@ services:
       - FOO=BAR
 
 *But these values can be overridden by docker compose up -d -e DEBUG=0
-*We can reference an env variable using the docker curly bracket syntax this way we can set the variable on your machine or server and use it directly in the compose file you can compose values in a file that you will name .env located in the same folder as the compose file.
+*We can reference an env variable using the docker curly bracket syntax this way we can set the variable on your machine or 
+server and use it directly in the compose file you can compose values in a file that you will name .env located in the same folder 
+as the compose file.
 
-Networking:-
-
+*To use env variables we have to create .env file in the same folder where we have to define variable which we will be using 
+ and to call it in the yaml file we have to use ${variable_name}.
+ 
+*Suppose we have sql server and we want to define env variable by two ways we can do that either by defining in the yaml file or
+ by using the separate file for definig env, Ex- define my-sql as service and for credential we use file mysqlcongifg.env in that 
+ we can store are password or config and later we can use that file in compose file by using env_file: - mysqlconfig.env 
+ 
+ 
+Profiles:- Suppose we have 3 services in compose file and we want to use only two and other can be used only when enabled so
+           we can use profile for that service and later we can enable by terminal to execute and run it. Ex- after defining
+		   service then declare profiles: - rediscache
+terminal command: docker compose --profile rediscache up -d
+                  docker compose --profile rediscache down --volumes  	
+		   
+Networking:- To define custom network we define in the same yaml file and define by custom name. Also if we didn't use the network 
+             name in the service it will go out to default and the one which we define it will use that common.
+    
 Example:-
 services:
   web:
     image: ngnix:alpine
     ports:
       - '8080:80'
+	networks:
+	  - my_network
 
   db:
     image: postgress
     ports:
       - '5432'
-
+	networks:
+	  - my_network  
+	  
+netoworks:
+  my_network:
+    driver:bridge
 
 Example:-
 services:
@@ -266,24 +292,97 @@ services:
   db:
     image: postgress
     networks: 
-      - bakend
+      - backend
 
 network
   frontend:
+    driver:bridge
   backend:
-
-Dependence:-
+    driver:bridge
+	
+Dependence:- We can use depend on to use for running conatiner before the main one and used to set order for creating services in 
+             the yaml file.
 
 services:
   app:
     image: myapp
     depends_on:
       - db
-db:
-  image: postgres 
-  networks:
-    - back-tier
+  db:
+    image: postgres 
+    networks:
+      - back-tier
 
+Example:
+services:
+  web:
+    image: ngnix:alpine
+    ports:
+      - '8080:80'
+	networks:
+	  - my_network
+	depends_on:
+	  - db 
+
+  db:
+    image: postgress
+    ports:
+      - '5432'
+	networks:
+	  - my_network  
+	  
+netoworks:
+  my_network:
+    driver:bridge
+
+	
+Docker Multi compose file for environment: We can copy the same and can use for other env like dev,prod and test.
+                                           
+Command: docker compose -f full filename.yml up -d 	
+         docker compose -f full filename.yml down -- volumes 
+         
+		 To login in the mysql server use 
+		 docker compose exec db mysql -u root -p
+		 enter password:
+		 show databases
+
+Creating custom image: Use docker file and define the config in the file and later can be used in the compose file like this.
+
+Example: dockerfile
+FROM ubuntu
+WORKDIR /app
+COPY script.sh
+RUN chomd 777 script.sh
+CMD ["./script.sh"]	
+
+services:
+  app: 
+    build: . (It will use the current docker file)
+	  dockerfile: Dockerfile
+  web:
+    image: ngnix:alpine
+    ports:
+      - '8080:80'
+	networks:
+	  - my_network
+	depends_on:
+	  - db 
+
+  db:
+    image: postgress
+    ports:
+      - '5432'
+	networks:
+	  - my_network 
+  
+
+Example: dockerfile
+FROM ubuntu
+WORKDIR /app
+COPY script.sh
+RUN chomd 777 script.sh
+CMD ["./script.sh"]		  
+	
 
 Volumes- Named:-
 
@@ -354,11 +453,80 @@ docker push piykesh/myimage:latest
 docker pull piykesh/myimage:latest
 
 
+AWS ECS: Mangeed container orchestrator
+
+*Manage lifecycles of container create/restart/destroy
+*Deploy & load-balance appliction across multiple servers.
+*Autpscaling to handle variance in traffic
+*Rolling out changes to application.
+
+Docker compose deployment:
+
+*Docker compose was limited to on server
+*We need more server we cannot rely to one server so we need to scale as we grow we need more servers and for that orchestrator
+  is needed.
+
+AWS ECS as orchestrator for containerization: 
+
+*It has to launch types: EC2 and Fargate
+
+ECS Cluster: It undelying infrastructure where we have bunch of virtual machines where ECS intance can deploy your application 
+             on it.
+
+EC2- We have to manage the undelying EC2 Instances.
+   
+              
+			   | ECS Control Plane |
+                        |
+                        |
+       --------------Cluster------------  
+      |     EC2                  Ec2    |
+      |  |      |             |       | |
+	  |  | ECS  |             |  ECS  | |
+	  |	 |Agent	|			  |	Agent |	|
+	  |  |Docker|             | Docker| |
+	  |  Firewall              Firewall |
+ 	  |   Patch                 Patch   |
+	  
+*You still need to manage the undelying infrastructure (EC2)
+*ECS Manages the conatiner
+*Full control over the infrastructure.
 
 
+Fargate: AWS Manages the the undelying infrastructure.
+
+      | ECS Control Plane        Fargate|
+                        
+                        |
+       --------------Cluster------------  
+      |                                 |
+      |  Server             Server      |
+	  |                                 |
+	  |	 								|
+	  |   								|
+	  |                				    |
+ 	  |  							    |
+	  
+*Follows a serverless architecture
+*Fargate will create server on demand.
+*No need to provision/ Maintain EC2 servers
+*You only need to pay for what you use.
 
 
+EC2 Task Definition:
+*Blueprint that describes how conatiner should launch.
+*How much CPU/Mem
+*Image/ports/Volumes.
+*It basically conatins all the configuration we put in the docker compose file.
+*A task is an instance of task definition is a instructions.
+*A running containers with setting defined in the Task def.
+*Whenever we go to create the tasl def we need the role to permit it (ecsTaskExecutionRole)
+*Then define Operating System, Task Executionrole, Task Size, Container- (container name, image, Memory, ports, etc) Volumes, env
+ 
+ECS Service:
+*A service ensures that a certain number of Tasks are running at all times.
+*Restart conatiner that have exited/crashed.
+*Ec2 instance fails, the service will b restart on a working EC2 instance.
 
-
-
-
+Load Balancer:
+*A load balancer can be assigned to route external traffic to your service
