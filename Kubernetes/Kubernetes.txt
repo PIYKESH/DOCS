@@ -57,7 +57,9 @@ Kubernetes running Info using=> kubectl cluster-info
 
 {
 Kubernetes CLI & Context=> 
-*The Kubernetes API server is a service running on the master node it exposes a rest api that is the only point of communication for Kubernetes cluster, you define the desire state in the yaml files. Let say you want to run X number of instances of container in a cluster using the Kubernetes CLI you can send that desired state to the cluster via rest api.
+*The Kubernetes API server is a service running on the master node it exposes a rest api that is the only point of communication for 
+Kubernetes cluster, you define the desire state in the yaml files. Let say you want to run X number of instances of container in a 
+cluster using the Kubernetes CLI you can send that desired state to the cluster via rest api.
 
 *Other application like a web dashboard can also communicate with the rest api to display the cluster state.
 
@@ -135,7 +137,7 @@ YAML
 • spec
    object specifications or desired state
 • Create an object using YAML
-   • kubctl crate-f [YAML file]
+   • kubctl create-f [YAML file]
 
 
 Pod definition=>
@@ -241,13 +243,14 @@ spec:
 { 
 Nodes=>
 
-Master Node=> A master node is also called a control plane the kubernetes services and controller are located on control plane they are also called as master components.
+Master Node=> A master node is also called a control plane, the kubernetes services and controller are located on control plane they are 
+              also called as master components.
 
 Master Node consists of -->  kube-controller-manager
                                                   cloud-controller-manager
                                                  |      kube-api-server  ------> The API server is that only component  
-                                                 |                                                  communicating with etcd
-                                                 |              kube scheduler
+                                                 |                               communicating with etcd
+                                                 |      kube scheduler
                                                  |                
                                                  | -->   etcd  ------> Key value datastore for cluster state data.
 
@@ -298,7 +301,9 @@ Addons
 *Cluster-level-logging
 *Containers resource monitoring
 
-Worker Node=> The nodes running the containers are called the worker nodes where the worker node is added to cluster some Kubernetes services are installed automatically the container runtime, kublet, kube-proxy these are necessary services to run pods and they are managed by master components in master node.
+Worker Node=> The nodes running the containers are called the worker nodes where the worker node is added to cluster 
+              some Kubernetes services are installed automatically the container runtime, kublet, kube-proxy these are 
+			  necessary services to run pods and they are managed by master components in master node.
 
 
 kublet
@@ -351,13 +356,16 @@ Pods=>
    · Localhost, IPC
 . Pods are ephemeral
 . Deploying a pod is an atomic operation, it succeed or not
-. If a pod fails, it is replaced with a new one with a shiny new IP
-address
+. If a pod fails, it is replaced with a new one with a shiny new IP address
 . You don't update a pod, you replace it with an updated version
 . You scale by adding more pods, not more containers in a pod
 . A pod has
 
-Pod Lifecycle--> When we issue an kubctl create command to deploy pod in your cluster  the cli send info to api server and that info is written to etcd, the scheduler will watch for this kind of information, where it looks the node and fine one where to schedule the pod and write that info into etcd, the kublet running on the node will watch for that information an issue an command to create an instance of the container inside a pod and finally the status will be written in etcd. etcd is the single source of truth in the cluster where all state is written. Same goes with the deletion of pod.
+Pod Lifecycle--> When we issue an kubctl create command to deploy pod in your cluster  the cli send info to api server and that info is 
+written to etcd, the scheduler will watch for this kind of information, where it looks the node and find one where to schedule the pod and 
+write that info into etcd, the kublet running on the node will watch for that information an issue an command to create an instance of the 
+container inside a pod and finally the status will be written in etcd. etcd is the single source of truth in the cluster where all state is
+written. Same goes with the deletion of pod.
 
 Pod State-->
 · Pending
@@ -368,7 +376,7 @@ Pod State-->
    . Exited with status O
 · Failed
    . All containers exit and at least one exited with non-zero statu
-· Unknow
+· Unknown
    . Communication issues with the pod
 . CrashLoopBackOff
   · Started, crashed, started again, and then crashed again
@@ -397,7 +405,8 @@ command: ["/bin/sh", "-c"]  ----> Equiv to Docker ENTRYPOINT
 args: ["echo ${DBCON}"]
 
 
-Init Containers=> *This is a great pattern for applications that have dependencies, the init container job is as simple as validating service or database is up and running this keeps infrastructure code out of the main logic.
+Init Containers=> *This is a great pattern for applications that have dependencies, the init container job is as simple as 
+                   validating service or database is up and running this keeps infrastructure code out of the main logic.
 
 *Initialize a pod before an application container runs.
 * Always run to completion
@@ -475,7 +484,9 @@ spec:
 }
 
 {
-Multi Containers Pods=> * Most common scenario: Helper process. Where other containers are providing services to that main worker just by saving the data to database and writing logs files. There many scenario's where multi container makes sense and they are well documented in a series of patterns.
+Multi Containers Pods=> * Most common scenario: Helper process. Where other containers are providing services to that main 
+worker just by saving the data to database and writing logs files. There many scenario's where multi container makes sense and 
+they are well documented in a series of patterns.
 
 Typical Patterns -->
 
@@ -1104,7 +1115,6 @@ spec:
         claimName: myclaim-------> Pod use the volume in the claim
 
 Persistent Volume States
-
 · Available
   . A free resource that is not yet bound to a claim
 · Bound
