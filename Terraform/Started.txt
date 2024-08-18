@@ -2,14 +2,190 @@ Terraform (IAC)
 1-It is open source tool which helps for automating the infastructure.
 2-It has declarative syntax and uses push based deployments.
 3-Its code can be written in JSON or HCL(Hashicorp configuration language).
-4-CORE COMPONENTS:-
+4-What is infrastrcture lifecycles?
+  A number of clearly and distinct work phases which are used by devops engineers to plan, design, build, test, deliver, maintain and 
+  retire cloud infastructure.
+  
+  What is Day0, Day1, Day2..?
+  Day 0-2 is a simplified way to describe phases of an infrastrcture lifecycle.
+  *Day0- Plan and Design
+  *Day1- Develop and iterate
+  *Day2- Go live and Maintain
+  
+  How does laC enhance the Infrastructure Lifecycle?
+ * Reliability: laC makes changes idempotent, consistent, repeatable, and predictable.
+  Idempotent:No matter how many times you run laC, you will always end up with the same state that is expected
+  
+ * Manageability:
+  · enable mutation via code
+  . revised, with minimal changes
+  
+ *Sensibility:
+  avoid financial and reputational losses to even loss of life when
+  considering government and military dependencies on infrastructure.
+  
+  When I deploy my IAC config it will provision and launch 2 virtual machines.?
+  
+  Non-Idompotent:When I update my laC and deploy again, I will end up with 2 new VMs with a total of 4 VMs.
+				 
+  Idompotent: When I update my laC and deploy again, it will update the VMs if changed by modifying or deleting and
+              creating new VMs.
+
+Provisioning
+To prepare a server with systems, data and software, and make it ready for network operation.
+Using Configuration Management tools like Puppet, Ansible, Chef, Bash scripts, PowerShell or
+Cloud-Init you can provision a server.
+When you launch a cloud service and configure it you are "provisioning"
+
+Deployment
+Deployment is the act of delivering a version of your application to run a provisioned server.
+Deployment could be performed via AWS CodePipline, Harness, Jenkins, Github Actions, CircleCI
+
+Orchestration
+Orchestration is the act of coordinating multiple systems or services.
+Orchestration is a common term when working with microservices, Containers and Kubernetes.
+stration could be Kubernetes Salt Fabr
+
+Configuration Drift: Configuration drift is when provisioned infrastrcture has an unexpected configuration changes due to:
+                     * team member manually adjusting configuration options
+					 * malacious actors
+					 * side affects from api, sdk or cli.
+					 
+How to detect configuration drift?
+. A compliance tool that can detect misconfiguration eg. AWS Config, Azure Policies, *GCP Security Health Analytics
+. Built-in support for drift detection eg. AWS CloudFormation Drift Detection
+. Storing the expected state eg. Terraform state files
+
+How to correct configuration drift?
+. A compliance tool that can remediate (correct) misconfiguration e.g. AWS Config
+. Terraform refresh and plan commands
+. Manually correcting the configuration (not recommended)
+. Tearing down and setting up the infrastructure again
+
+How to prevent configuration drift?
+· Immutable infrastructure, always create and destroy, never reuse, Blue, Green deployment strategy.
+· Servers are never modified after they are deployed
+. Baking AMI images or containers via AWS Image Builder or HashiCorp Packer, or a build server eg. GCP Cloud Run
+· Using GitOps to version control our laC, and peer review every single via Pull Requests change to infrastructure
+  
+Mutable Infrastructure: Develop--->Deploy--->Configure
+A VM deployed and then a configuration management tool tile ansible, puppet is used to configure the state of the server.
+
+
+Imutable Infrastructure: Develop--->Configure--->Deploy
+A VM deployed and prvisioned and then it is turned into a virtual Image, stored in image repository, that image is 
+used to deploy VM instances.
+
+What is Change Management?
+A standard approach to apply change, and resolving conflicts brought about by change.In the context of Infrastructure as Code (laC), 
+Change management is the procedure that will be followed when resources are modify and applied via configuration script.
+
+What is Change Automation?
+*A way of automatically creating a consistent, systematic, and predictable way of managing change request via controls and policies
+*Terraform uses Change Automation in the form of Execution Plans and Resources graphs to apply and review complex changesets.
+
+What is a ChangeSet?
+A collection of commits that represent changes made to a versioning repository. laC uses ChangeSets so you can see what has 
+changed by who over time.
+
+*Change automation allows you to know exactly what terraform  will change  and in  what order, avoiding many possible human errors.
+
+Terraform Execution Plans
+
+What is execution plan?
+An execution plan is a manual review of what will add, change, or destroy before you apply changes eg, terraform apply.
+
+Terraform - Visualizing Execution Plans
+
+You can visualize an execution plan as a graph using the terraform graph command
+Terraform will output a GraphViz file (you'll need GraphViz installed to view the file)
+
+What is GraphViz?
+open-source tools for drawing graphs specified in DOT
+language scripts having the file name extension "gv"
+
+terraform graph | dot -Tsvg > graph.svg
+
+Resource Graph
+*Terraform builds a dependency graph from the Terraform configurations,and walks this graph to generate plans, refresh state, and more.
+*When you use terraform graph, this is a visual presentation of the dependency graph.
+
+What is a dependency graph?
+In mathematics is a directed graph representing dependencies of several objects towards each other
+
+Resource Node- Represents a single resource.
+Resource Meta Node- Represents a group of resources, but does not represent any action on it's own.
+Provider Configuration Node- Represents the time to fully configure a provider
+
+Terraform is logically split into two main parts:
+1.Terraform Core-*Uses remote procedure calls (RPC) to communicate with Terraform Plugins
+                 *Terraform Core is a statically-compiled binary written in the Go programming language.
+2.Terraform Plugins-expose an implementation for a specific service, or provisioner
+ 
+Local execution- *Local-exec allows you to execute local commands after a resource is provisioned.
+                 *The machine that is executing Terraform eg. terraform apply is where the command will execute.
+Ex- Using command , working dir,  interpreter, environment.
+
+Remote Execution- Remote-exec allows you to execute commands on a target resource after a resource is provisioned.
+				  It is useful for provisioning a virtual machine with a simple set of commands.
+
+Remote commands has three diffrent modes: You can choose only one mode to use.	
+                                          Inline-> List of commands strings.
+                                          Script-> Relative or absolute local script that will be copied to the remote resource and
+                                                   then executed.
+                                          Scripts-> Same as script but it will be executed in order.
+
+File provisioner- File provisioner is used to copy files or directories from our local machine to the newly created resource
+
+Source - the local file we want to upload to the remote machine
+
+Content - a file or a folder
+
+Destination - where you want to upload the file on the remote machine
+
+You may require a connection block within the provisioner for authentication
+	
+Connection- A connection block tell a provisioner or resource how to establish a connection.
+
+Null resources: *Null resource is a place holder for resource that have no specific association to a provider resource.
+                *You can provide a connection an trigger to a resource.
+				*Triggers is a map of values which should cause this set of provisioners to re-run.
+                *Values are meant to be interpolated references to variables or attributes of other resources.
+
+Terraform Data: It is simlar to null resource but does not require or the configuration of a provider.
+
+Providers: Terraform has bumch of providers and we can use terraform provider command in terminal to list out.
+           To use multiple verison or to set alternative cloud provider we must use alias provider.
+
+The fine line is understanding the granularities of responsebility between terraform infastructure as code and third party configuration
+management
+				
+5-CORE COMPONENTS:-
   Executable-:This is a single binary file which is invoke to run terraform, It contains all the terraform functionality
   Congiuration files-:It may be single or multiple files with .tf extension where it combines all the file to work.
   Provider Plugins-:The provider plugins help to terraform to communicate with any service provider via API.For ex if terraform 
                     wants to talk with AWS it will need a plugin which is stored in terraform.registry.io .
-  State Data-:Terraform keeps update of all conifg or version of provisioning any service provider by keeping a state file in 
-              repo.
-5-Terraform Syntax or Object Refernce 
+  State Data-:Terraform keeps update of all conifg or version of provisioning any service provider by keeping a state file in repo.
+  
+5-Terraform Syntax or Object Refernce: Terraform files end in the extension of .tf or either .tf.json they are written in terraform
+  language. 
+  Terraform consits of only few basic elements.
+  *Block- Represents as object
+   .block type - can have zero or more label and a body
+   .block label - name of a block.
+  
+  *Arguments- assign a value to a name
+    .They appear within blocks
+  
+  *Expressions- represents a value, wither literally or by referencing and combining other values.
+   . They appear as values for arguments, or within other expressions.  
+									   
+
+ "<BLOCKTYPE>" "<BLOCKTYPE>" "<BLOCKTYPE>" {
+  # Block body
+  <IDENTIFIERS> = <EXPRESSION> #Argument
+ }
+ 
   <resource_type>.<name_label>.<attribute>
    EX- resource "aws_instance" "web server"{
         name = "Web Server"
@@ -17,20 +193,39 @@ Terraform (IAC)
 		size = "50"
 		}
 	}
-6-INPUT_Variables
+	
+Terraform settings- The special terraform configuration block type eg. terraform { ... } is used to
+                    configure some behaviors of Terraform itself
+ 
+In Terraform settings we can specify:
+* required_version
+  . The expected version of terraform
+* required_providers
+  . The providers that will be pull during an
+    terraform init
+* experiments
+  . Experimental language features, that the
+    community can try and provide feedback
+* provider_meta
+  · module-specific information for providers
+	
+6-INPUT_Variables: Input varibales are parameters for terraform modules.
     input_variables------>local_values----->outputvalues
     
-	(var_Syntax)
-	variable "name_label"{}
-	
-	Example-
 	variable "name_label"{
 	type = value
 	description = "value"
 	default = "value"
     sensitive =  true | false (Boolean Values)
 	
-  Examples
+	(var_Syntax)- Varibales are defined as variable blocks, they can declare 
+	              variables in root modules or child modules. 
+	
+	variable "image_it" {
+	  type- string
+	}
+		
+    Examples
     variable = "aws_tag"{} (There is no use of argument)
      or
     variable = "aws_region"{
@@ -40,7 +235,47 @@ Terraform (IAC)
 	 sensitive = false (either you mention or don't mention it automatically takes the false value for true we have to define)
 	 }
 	 
-7-Date Types in Terraform
+Varibale Definintion Files: *A variable definitions file allows you to set the values for multiple variables at once.
+                            *Variable definition files are named .tfvars or tfvars.json
+                            *By default terraform.tfvars will be autoloaded when included in the root of your project directory.	 
+
+Varibales via Environment Varibales: *A variable value can be defined by Environment Variables
+                                     *Variable starting with TF_VAR _< name> will be read and loaded
+                                     example- export TF_VAR_image_it=ami-abc123
+
+Varibale Definintion Precedence: You can override variables via many files and commands The definition precedence is the order in 
+                                 which Terraform will read variables and as it goes down the list it will override variable. 
+								 
+								 · Environment Variables
+                                 · terraform.tfvars
+                                 · terraform.tfvars.json
+                                 · *. auto.tfvars or *. auto.tfvars.json
+                                 · -var and -var-file
+	 
+7-Refrenced to Named Values: Named Values are built-in expressions to reference various values such as:
+
+Resources   -     <Resource Type> .< Name> e.g. aws_instance.my_server  
+Input variables  -   var .< Name>
+Local values  -   local .< Name>
+Child module outputs  -   module .< Name>
+Data sources  -   data .< Data Type>,<Name>
+
+Filesystem and workspace info
+. path.module - path of the module where the expression is placed
+. path.root - path of the root module of the configuration
+. path.cwd - path of the current working directory
+· terraform.workspace - name of the currently selected workspace
+
+Block-local values (within the body of blocks)
+· count.index (when you use the count meta argument)
+. each.key / each.value (when you use the for_each meta argument )
+. self .< attribute> - self reference information within the block (provisioners and connections)
+
+Named values resemble the attribute notation for map (object) values but are not objects and do
+not act as objects. You cannot use square brackets to access attribute of Named Values like an object.
+
+
+8-Date Types in Terraform
     Primitive:- string,number,boolean
 	Collection:- list,set,map (Data-type must be same)
 	Structural:- tuple,object (Data-type can be mixed)
@@ -64,8 +299,10 @@ Terraform (IAC)
 	 }
 	Referncing collecting values
 	var.<name_label>.<key_name> or var.<name_label>.["key_name"]
-	Calling any var.aws_instance.small or var.aws_instance.["small"]
-8-Local Values
+	Calling any var.aws_instance.small or var.aws_instance.["small"]  
+   
+9-Local Values: A local value (locals) assigns a name to an expression, so you can use it multiple times within a module without repeating 
+                it.
    locals {
    instance_prefix = "Globo"
    comman_tags= {
@@ -73,6 +310,7 @@ Terraform (IAC)
     project = "var.project"
 	billing_code = "var.billing.code"
    }
+   
    }
   Terraform_local_refernce
     local.<name_label> same follows with var for calling in .tf file
@@ -90,15 +328,43 @@ Terraform (IAC)
 	}
    }
    
-9-Now in main.tf conifgure variable and local_values .
-10-OUTPUT_values :- It comes when the terraform is applied we saw the ouptut values in the console.
+Once a local value is declared, you can refrence it in expression as local.<NAME>. 
+
+
+10-Data Sources: Data sources allow Terraform use information defined outside of Terraform, defined by another separate Terraform 
+                configuration, or modified by functions.
+	syntax
+   
+    data "aws_ami" "web" {
+     filter {
+      name = "state"
+      values = ["available"]	
+     }
+    
+	 filter {
+     name= "tag:Component"
+     values = ["web"]
+     }    
+	 most_recent = true
+   }
+	
+	Refrenciong it in resource block
+	
+	resource "aws_instance" "web" {
+	  ami= data.aws_ami.web.id
+      instance_type = "t1.micro"
+    }
+	  
+	   
+11-OUTPUT_values :- It comes when the terraform is applied we saw the ouptut values in the console.
     Syntax
 	 output "name_label" {
 	  value = output_values
 	  description = "Description can be any thing for ouptut"
 	  sensitive = True | Fales
 	  }
-11-Syntax_Validation :- It's a best way to check the syntax is correct or not it'll also suggest before deployments.
+	
+12-Syntax_Validation :- It's a best way to check the syntax is correct or not it'll also suggest before deployments.
     a-terraform-validate first
 	b-check syntax and logic
 	c-Does not check the current state
@@ -106,16 +372,6 @@ Terraform (IAC)
 	
 	terraform -validate ---> terraform -init ---> terraform -plan ---> terraform -apply
 	
-12-Supply variable_values
-   It can be declare in 6 ways and it goes from down to bottom here, technically left to right to make it win of evalaution
-    -Default
-	-var flag
-	-var-file flag
-	-terraform.tfvars
-	 terraform.tfvars.json
-	-auto.tfvars
-	 auto.tfvars.json
-	-variable TF_VAR_ 
 13-Create variable.tfvars for storing values in same directory where main.tf and other tf files are present.
     Syntax or ex
 	  billing code = ""
@@ -130,14 +386,57 @@ Terraform (IAC)
 			$Export env: TF_VAR_aws_access_key=""
 			$Export env: TF_VAR_aws_secret_key=""
 			
-14-Add more resources on demand to meet your goal.
-15-Terraform state data:- In general we never mess with this file in any env rather do things precautions.Here some
+14- Resource Meta Arguments- Terraform language defines several meta-arguments, which can be used with any resource type to 
+                             change the behavior of resources.
+
+· depends_on, for specifying explict dependencies
+. count, for creating multiple resource instances according to a count
+. for_each, to create multiple instances according to a map, or set of strings
+. provider, for selecting a non-default provider configuration
+· lifecycle, for lifecycle customizations
+. provisioner and connection, for taking extra actions after resource creation
+
+
+15-Resource Behaviour- When you execute an execution order via Terraform Apply it will
+perform one of the following to a resource:
+
+Create (+)
+. resources that exist in the configuration but are not associated with a real
+infrastructure object in the state.
+
+Destroy (-)
+. resources that exist in the state but no longer exist in the configuration.
+
+Update in-place (~)
+. resources whose arguments have changed.
+
+Destroy and re-create (-/+ )
+. resources whose arguments have changed but which cannot be updated in-
+place due to remote API limitations.
+
+
+Lifecycle- Lifecycle block allows you to change what happens to resource e.g. create, update, destroy.Lifecycle blocks are 
+           nested within resources.
+
+create_before_destroy (bool)
+When replacing a resource first create the new resource
+before deleting it (the default is destroy old first)
+
+prevent_destroy (bool)
+Ensures a resource is not destroyed
+
+ignore_changes (list of attributes)
+Don't change the resource (create, update, destroy) the
+resource if a change occurs for the listed attributes.
+
+16-Terraform state data:- In general we never mess with this file in any env rather do things precautions.Here some
     commands for state 
 	  - terraform state list
 	  - terraform state show ADDRESS
 	  - terraform state mv SOURCE DESTINATION
 	  - terraform state rm ADDRESS
-16-First rule of terraform make all the changes within Terraform.
+
+
 17-Terraform Providers -  * Pubic and private registers
                           * Official, Verified and community
 						  * Open source
@@ -186,12 +485,14 @@ Terraform (IAC)
 		description = ""
 		default = ""
 		}
+		
 19-Process during terraform planning
 		-Refresh and inspect state
 		-Dependency graph
 		-Addition,updates and deletion
 		-Parallel execution
    Terraform itslef find the determining dependencies with telling how ec2 depends on s3 or subnets on vpc's
+   
 20-Post_Deployment_Configuration:- It is required sometimes for depoying over VM or Container or writing for sql servers or for native
    clients.We can create resource file for that for an ex- cluster for mysql database using mysql provider.
 		Congiuration Options -Resource
@@ -205,7 +506,9 @@ Terraform (IAC)
 											  -Last Resort!
 							There are three provisioners types :- file(remote provisioners), local_exec(Locally provisioning),
 							                                      remote_exec(It allows to run scripts over remote machines)
+																  
 21-Formatting all the terraform files including the paths by using terraform -fmt 
+
 22-Potential Improvments using loops and functions in the existing configuration file.
   
    ~>Looping 
@@ -244,6 +547,7 @@ Terraform (IAC)
 			aws_s3_bucket_object.sahi-paneer[*].id #all instance
 						
       -dynamic_block (it is used to create multiple instances in nested block inside apprant object it accepts map or set as a value)
+	  
 23-Terraform functions and expressions
     Expressions->Interpolation and heredoc
 	             Arithmetic and logical operators
@@ -278,6 +582,7 @@ Terraform (IAC)
 										  company=""
 										  project=""
 										  }
+										  
 24-Create template file seprate for intances by any name like- startup_script.tpl and define the path of this in user data resource of aws_intance
    by user_data = templatefile("${path.module}/file.name.with extension",{
        s3_bucket_name = aws_s3_bucket_object.id
@@ -376,11 +681,11 @@ Terraform (IAC)
 
 30-Worksapces->    Multiple Environment
                          |
-			 |
+			             |
 		         --------------------
-	                 |       |          |
-	       Development      UAT        Production
- 	          \              |           /
+	    		 |       |          |
+       Development       UAT        Production
+ 	      \              |           /
 		   \             |          /
 		    \            |         /
 		     \           |        /

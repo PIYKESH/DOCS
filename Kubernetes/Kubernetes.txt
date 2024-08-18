@@ -257,7 +257,7 @@ Master Node consists of -->  kube-controller-manager
 
 kube-apiserver
 *REST interface
-*Save state to the datastore(etccd)
+*Save state to the datastore(etcd)
 *All clients interact with it, never directly to the datastore.
 
 etcd
@@ -640,10 +640,10 @@ metadata:
 	  type: prod
       spec :
         containers:
- 	- name: nginx
-   	  image: nginx:stable-alpine
-	  ports:
-	  - containerPort: 80
+ 	      - name: nginx
+   	        image: nginx:stable-alpine
+	        ports:
+	        - containerPort: 80
 
 DaemonSet-->
 
@@ -1462,3 +1462,16 @@ spec :
     cpu: "500m"
 
 }
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-app
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
